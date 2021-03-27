@@ -6,6 +6,16 @@ body {
 a {
   color: #00B7FF;
 }
+
+#file-upload{
+  display:inline-block;
+  width:100px;
+}
+
+#file-button{
+  margin-bottom:5px;
+}
+
 #viewer {
   position: absolute;
   top: 0;

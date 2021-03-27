@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <!-- Photosphere viewer dependencies -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uevent@2/browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/photo-sphere-viewer.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.js"></script>
+</head>
+<body>
+  <div id="viewer"></div>-->
+  <script>
+      /* Photosphere */
+      var viewer = new PhotoSphereViewer.Viewer({
+          plugins: [[PhotoSphereViewer.MarkersPlugin]],
+          container: document.querySelector('#viewer'),
+          panorama: '<%= panorama %>'
+      });
+      var markersPlugin = viewer.getPlugin(PhotoSphereViewer.MarkersPlugin);
+  </script>
+
+</body>
+</html>

@@ -5,11 +5,11 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <!-- Photosphere viewer dependencies -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/plugins/markers.css"/>
     <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uevent@2/browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/photo-sphere-viewer.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/plugins/markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.js"></script>
 
 </head>
 <body>
@@ -18,51 +18,35 @@
 
     /* Photosphere */
     var viewer = new PhotoSphereViewer.Viewer({
-        plugins: [[PhotoSphereViewer.MarkersPlugin, {}]],
+        plugins: [[PhotoSphereViewer.MarkersPlugin, {markers: [
+        {
+        id: "br",
+        longitude: '45deg',
+        latitude: '45deg',
+        rect:[450,45],
+        },
+      ]},]],
         container: document.querySelector('#viewer'),
-        panorama: '/images/panoramas/sphere.jpg'
+        panorama: '/images/panoramas/download.png'
     });
-    const markersPlugin = viewer.getPlugin(PhotoSphereViewer.MarkersPlugin);
-    console.log("BRUH");
-
-    function create_marker(id, longitude, latitude, width, height, onClick = null) {
-        console.log(onClick == null);
-        markersPlugin.addMarker(
-            {
-                id: 'polygon',
-                polylineRad: [
-                    [6.2208, 0.0906],
-                    [0.0443, 0.1028],
-                    [0.2322, 0.0849],
-                    [0.4531, 0.0387],
-                    [0.5022, -0.0056],
-                    [0.4587, -0.0396],
-                    [0.2520, -0.0453],
-                    [0.0434, -0.0575],
-                    [6.1302, -0.0623],
-                    [6.0094, -0.0169],
-                    [6.0471, 0.0320],
-                    [6.2208, 0.0906],
-                ],
-                svgStyle: {
-                    fill: 'rgba(200, 0, 0, 0.2)',
-                    stroke: 'rgba(200, 0, 50, 0.8)',
-                    strokeWidth: '2px'
-                },
-                tooltip: {
-                    content: 'A dynamic polygon marker',
-                    position: 'right bottom'
-                }
-            }
-        );
-        markersPlugin.on('select-marker', (e, marker) => {
-            onClick(e, marker)
-        });
+    var markersPlugin = viewer.getPlugin(PhotoSphereViewer.MarkersPlugin);
+    function createMarker(id, long, lat, width, height, onclick=null){
+      markersPlugin.addMarker({
+        id: id,
+        longitude: long+'deg',
+        latitude: lat+'deg',
+        rect:[width,height],
+      });
+      markersPlugin.on("select-marker", (e,marker) => {
+        onclick(e,marker);
+      });
     }
-
-    create_marker("Newmark", 1, 1, 50, 50, (e, marker) => {
-        console.log("BRUH")
-    });
+    function createPortalMarker(id, long, lat, width, height, imurl){
+      createMarker(id,long,lat,width,height,(e,marker)=>{
+        viewer.setPanorama(imurl);
+      });
+    }
+    console.log("BRUH");
 </script>
 </body>
 </html>
