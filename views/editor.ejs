@@ -12,15 +12,85 @@
     <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.js"></script>
 </head>
 <body>
-  <div id="viewer"></div>-->
+  <div id="viewer"></div>
+  <div style="position:absolute;top:90vh;left:90vw; z-index:100;">
+    <input id="create-marker-text" type="text"></input>
+    <button id="create-marker-button" onclick="finalizeMarker()">Create Marker</button>
+  </div>
   <script>
       /* Photosphere */
+      let creatingRect = false;
+      let clickLocs = [];
+      let createdMarkersCount = 0;
+      console.log('<%= panorama %>');
+      if('<%= panorama %>'.includes('undefined')) window.location.replace("/upload");
       var viewer = new PhotoSphereViewer.Viewer({
           plugins: [[PhotoSphereViewer.MarkersPlugin]],
           container: document.querySelector('#viewer'),
           panorama: '<%= panorama %>'
       });
       var markersPlugin = viewer.getPlugin(PhotoSphereViewer.MarkersPlugin);
+      function createRectMarker(id, long, lat, width, height, onclick=null){
+        markersPlugin.addMarker({
+          id: id,
+          longitude: long+'deg',
+          latitude: lat+'deg',
+          rect:[width,height],
+        });
+        markersPlugin.on("select-marker", (e,marker) => {
+          onclick(e,marker);
+        });
+      }
+      function createPolygonRadMarker(id, polygonRad, onClick=null){
+        markersPlugin.addMarker({
+          id: id,
+          polygonRad: polygonRad,
+        });
+        markersPlugin.on("select-marker", (e,marker) => {
+          onClick(e,marker);
+        });
+      }
+      function createPortalRectMarker(id, long, lat, width, height, imurl){
+        createRectMarker(id,long,lat,width,height,(e,marker)=>{
+          viewer.setPanorama(imurl);
+        });
+      }
+      function updatePolygonRadMarker(id, newPolygonRad, onClick=null){
+        markersPlugin.updateMarker({
+          id: id,
+          polygonRad: newPolygonRad,
+        });
+      }
+
+      function finalizeMarker(){
+        createdMarkersCount++;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "editor", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            "polygonRad": clickLocs
+        }));
+        markersPlugin.removeMarker("transportMarker");
+      }
+      viewer.on('click', (e, data) => {
+        console.log("CLICK");
+        if(!data.rightclick){
+          if(clickLocs.length == 0){
+            clickLocs = [[data.longitude, data.latitude]];
+            createPolygonRadMarker("transportMarker", clickLocs);
+          }
+          else if(clickLocs.length == 4){
+            clickLocs = [];
+            markersPlugin.removeMarker("transportMarker");
+          }
+          else{
+            clickLocs.push([data.longitude,data.latitude]);
+            updatePolygonRadMarker("transportMarker", clickLocs);
+          }
+        }
+      });
+
+
   </script>
 
 </body>

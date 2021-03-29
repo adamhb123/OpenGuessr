@@ -15,6 +15,16 @@ a {
 #file-button{
   margin-bottom:5px;
 }
+#create-marker-button{
+  background-color:blue;
+  color:white;
+  width: 11vw;
+  height:5vh;
+}
+#create-marker-text{
+  width:10vw;
+  height:5vh;
+}
 
 #viewer {
   position: absolute;

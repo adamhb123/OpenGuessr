@@ -30,22 +30,7 @@
         panorama: '/images/panoramas/download.png'
     });
     var markersPlugin = viewer.getPlugin(PhotoSphereViewer.MarkersPlugin);
-    function createMarker(id, long, lat, width, height, onclick=null){
-      markersPlugin.addMarker({
-        id: id,
-        longitude: long+'deg',
-        latitude: lat+'deg',
-        rect:[width,height],
-      });
-      markersPlugin.on("select-marker", (e,marker) => {
-        onclick(e,marker);
-      });
-    }
-    function createPortalMarker(id, long, lat, width, height, imurl){
-      createMarker(id,long,lat,width,height,(e,marker)=>{
-        viewer.setPanorama(imurl);
-      });
-    }
+    
     console.log("BRUH");
 </script>
 </body>
