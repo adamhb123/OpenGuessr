@@ -46,11 +46,9 @@ function readLocFile(filename){
   fs.readFile(filename, function(err, data){
     if(err) throw err;
     data = data.toString().split('!@!');
-    fs.writeFileSync("./img"+data[2], Buffer.from(data[0], 'base64')); /*function(err, dataWrite){
-      if (err) throw err;
-      let polygonRad = JSON.parse(data[1]);
-      console.log(polygonRad.toString());
-    });*/
+    fs.writeFileSync("./img"+data[2], Buffer.from(data[0], 'base64'));
+    let polygonRad = JSON.parse(data[1]);
+    console.log(polygonRad);
   });
 }
 

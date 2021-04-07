@@ -21,9 +21,18 @@ a {
   width: 11vw;
   height:5vh;
 }
-#create-marker-text{
+.create-marker-text{
   width:10vw;
   height:5vh;
+}
+
+#create-marker-container{
+  position:absolute;
+  z-index:100;
+  top:0;
+  left:0;
+  width:5%;
+  height:auto;
 }
 
 #viewer {

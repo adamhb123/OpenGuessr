@@ -12,11 +12,11 @@
     <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.js"></script>
 </head>
 <body>
-  <div id="viewer"></div>
-  <div style="position:absolute;top:90vh;left:90vw; z-index:100;">
-    <input id="create-marker-text" type="text"></input>
+  <div id="create-marker-container">
+    <input class="create-marker-text" id="create-marker-text-id" type="text"></input>
     <button id="create-marker-button" onclick="finalizeMarker()">Create Marker</button>
   </div>
+  <div id="viewer"></div>
   <script>
       /* Photosphere */
       let creatingRect = false;
@@ -68,6 +68,8 @@
         xhr.open("POST", "editor", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
+            "markerId" : document.querySelector("#create-marker-text-id").value,
+            "markerLink" : document.querySelector("#create-marker-text-id").value,
             "polygonRad": clickLocs
         }));
         markersPlugin.removeMarker("transportMarker");
