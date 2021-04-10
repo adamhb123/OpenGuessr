@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const fs = require("fs");
-
-const uploaded_images_location = "/images/panoramas/";
-const uploaded_portals_location = "/portals/";
+const uploadedImagesLocation = "/images/panoramas/";
+const uploadedPortalsLocation = "/portals/";
 const pubdir = __dirname + "/../public";
 
 var passedVariable = null;
@@ -21,7 +20,7 @@ function polygonRadToString(polygonRad){
     }
     return strng;
 }
-function writeLocFile(filename, imageFilename, polygonRad){
+function writeLocFile(filename, imageFilename, polygonRad, portalDesc){
   //fs.readFile(__dirname + "/../public" + uploaded_images_location + passedVariable, function(err, data) {
   fs.readFile(imageFilename, function(err, data) {
     if (err) throw err;
@@ -31,13 +30,15 @@ function writeLocFile(filename, imageFilename, polygonRad){
     fs.writeFile(filename, encodedImage, function(err, dataWrite) {
       if (err) throw err;
       let imspl = imageFilename.split('.');
-      const appendee = "!@!"+JSON.stringify(polygonRad)+"!@!."+imspl[imspl.length-1];
+      const appendee = ("!@!"+JSON.stringify(polygonRad)+"!@!."+
+      imspl[imspl.length-1] + "!@!" + JSON.stringify(portalDesc));
       console.log(appendee);
       fs.appendFile(filename, appendee, function (err,dataApp) {
         if (err) {
           return console.log(err);
         }
         console.log(dataApp);
+
       });
     });
   });
@@ -46,9 +47,12 @@ function readLocFile(filename){
   fs.readFile(filename, function(err, data){
     if(err) throw err;
     data = data.toString().split('!@!');
-    fs.writeFileSync("./img"+data[2], Buffer.from(data[0], 'base64'));
-    let polygonRad = JSON.parse(data[1]);
-    console.log(polygonRad);
+    fs.writeFile("./img"+data[2], Buffer.from(data[0], 'base64'), function(err, data){
+      let polygonRad = JSON.parse(data[1]);
+      let portalDesc = JSON.parse(data[2]);
+      console.log(polygonRad);
+      console.log(portalDesc);
+    });
   });
 }
 
@@ -56,18 +60,18 @@ function readLocFile(filename){
 router.get('/', function(req, res, next) {
   passedVariable = req.query.image;
   console.log(passedVariable);
-  res.render('editor', { title: 'CSHGuessr', panorama: uploaded_images_location + passedVariable});
+  res.render('editor', { title: 'CSHGuessr', panorama: uploadedImagesLocation + passedVariable});
 }).post('/', function(req, res, next){
   console.log("POST RECEIVED")
   if(passedVariable != null){
     let filename = passedVariable.split('.')[0] + ".prtl";
     let polygonRad = req.body.polygonRad;
-    console.log("Writing");
-    writeLocFile(pubdir + uploaded_portals_location + filename,
-                 pubdir + uploaded_images_location + passedVariable,
+    console.log("Writing to file " + filename);
+    writeLocFile(pubdir + uploadedPortalsLocation + filename,
+                 pubdir + uploadedImagesLocation + passedVariable,
                  polygonRad);
     console.log("written");
-    readLocFile(pubdir + uploaded_portals_location + filename);
+    //readLocFile(pubdir + uploaded_portals_location + filename);
     };
   }
 );
