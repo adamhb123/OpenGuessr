@@ -7,7 +7,10 @@ const busboy = require('connect-busboy');
 
 const indexRouter = require('./routes/index');
 const createRouter = require('./routes/upload');
-const editorRouter = require('./routes/editor')
+const editorRouter = require('./routes/editor');
+const portalRouter = require('./routes/portals');
+
+const compression = require('compression');
 
 const app = express();
 // view engine setup (ejs)
@@ -20,6 +23,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression());
 
 //  set static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/upload', createRouter);
 app.use('/editor', editorRouter);
+app.use('/portals', portalRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

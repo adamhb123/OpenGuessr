@@ -6,15 +6,18 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "compression": "^1.7.4",
     "connect-busboy": "^0.0.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-fileupload": "^1.2.1",
+    "flexboxgrid": "^6.3.1",
     "fs-extra": "^9.1.0",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "node-fetch": "^2.6.1",
     "photo-sphere-viewer": "~4.2.1",
     "uuid": "^8.3.2"
   }

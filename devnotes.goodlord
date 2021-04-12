@@ -6,8 +6,11 @@ include in the prtl file. What we really need that we don't have is:
 	B) Location name
 	C) Location descriptor
 
-We need to figure out how we want to link markers with locations, my current idea is to 
+We need to figure out how we want to link markers with locations, my current idea is to
 tuple the marker with the prtl file it is linked to, which will be done for now through
 pure text, but in the future through a gui selector.
 
-	
+
+APRIL 12th
+
+Add blips/effects when first few clicks marker to give feedback to user

@@ -12,15 +12,85 @@
     <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.js"></script>
 </head>
 <body>
-  <div id="create-marker-container">
-    <input class="create-marker-text" id="create-marker-text-descriptor" type="text"></input>
-    <button id="create-marker-button" onclick="finalizeMarker()">Create Marker</button>
+  <div id="portal-controls">
+    <div class="controller-subcontainer left-align">
+      <input class="create-marker-text" id="create-marker-text-id-link" type="text"></input>
+      <button class="create-marker-button" onclick="addMarker()">Create Marker</button>
+      <button class="create-marker-button" onclick="finalizeMarkers()">Finalize Portal</button>
+    </div>
+    <div class="controller-subcontainer right-align">
+      <button class="create-marker-button" id="portal-gallery-button" onclick="toggleGallery()">Portal Gallery</button>
+    </div>
   </div>
+  <div id="portal-gallery">
+    <div class="flex-grid">
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+    </div>
+    <div class="flex-grid">
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+    </div>
+    <div class="flex-grid">
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+      </div>
+    </div>
+  </div>
+
   <div id="viewer"></div>
   <script>
       /* Photosphere */
       let creatingRect = false;
       let clickLocs = [];
+      let locMasterList = [];
       let createdMarkersCount = 0;
       console.log('<%= panorama %>');
       if('<%= panorama %>'.includes('undefined')) window.location.replace("/upload");
@@ -30,12 +100,41 @@
           panorama: '<%= panorama %>'
       });
       var markersPlugin = viewer.getPlugin(PhotoSphereViewer.MarkersPlugin);
+
+      if(window.addEventListener){
+        window.addEventListener('load', updateGallery);
+      }else{
+        window.attachEvent('onload', updateGallery);
+      }
+
+      const copyToClipboard = str => {
+        const el = document.createElement('textarea');
+        el.value = str;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      };
+
+      function Marker(idLink, polygonRad){
+        this.idLink = idLink;
+        this.polygonRad = polygonRad;
+      }
+      function RGBA(r,g,b,a){
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
+        this.getCSS = () => {
+          return `rgba(${this.r},${this.g},${this.b},${this.a})`;
+        }
+      }
       function createRectMarker(id, long, lat, width, height, onclick=null){
         markersPlugin.addMarker({
           id: id,
           longitude: long+'deg',
           latitude: lat+'deg',
-          rect:[width,height],
+          rect:[width, height],
         });
         markersPlugin.on("select-marker", (e,marker) => {
           onclick(e,marker);
@@ -55,26 +154,101 @@
           viewer.setPanorama(imurl);
         });
       }
-      function updatePolygonRadMarker(id, newPolygonRad, onClick=null){
+      function updatePolygonRadMarkerPosition(id, newPolygonRad, onClick=null){
         markersPlugin.updateMarker({
           id: id,
           polygonRad: newPolygonRad,
         });
       }
+      function updatePolygonRadMarkerStyle(id, fillColor, strokeColor, strokeWidth ,onClick=null){
+        console.log("STYLE " + fillColor.getCSS());
+        markersPlugin.updateMarker({
+          id: id,
+          svgStyle: {
+            fill: fillColor.getCSS(),
+            stroke: strokeColor.getCSS(),
+            strokeWidth: `${strokeWidth}px`
+          },
+        });
+      }
+      function choice(choiceList) {
+        var index = Math.floor(Math.random() * choiceList.length);
+        return choiceList[index];
+      }
+      function createUUID(){
+        var dt = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (dt + Math.random()*16)%16 | 0;
+            dt = Math.floor(dt/16);
+            return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+        });
+        return uuid;
+      }
 
-      function finalizeMarker(){
-        let desc = document.querySelector("#create-marker-text-descriptor").value;
-        if(desc.replace(" ", "") != "") desc = "No description";
+      function addMarker(){
+        let idLink = document.querySelector("#create-marker-text-id-link").value;
+        locMasterList.push(new Marker(idLink, clickLocs));
+        let tempId = createUUID();
+        createPolygonRadMarker(tempId, clickLocs);
+        updatePolygonRadMarkerStyle(tempId,
+          new RGBA(225, 28, 82, .2),
+          new RGBA(176, 25, 126, .8));
+        markersPlugin.removeMarker("transportMarker");
+        clickLocs = []
         createdMarkersCount++;
+      }
+      function finalizeMarkers(){
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "editor", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
-            "markerDesc" : document.querySelector("#create-marker-text-descriptor").value,
-            "polygonRad": clickLocs
+            "markerIdLink" : document.querySelector("#create-marker-text-id-link").value,
+            "polygonRads": locMasterList,
         }));
-        markersPlugin.removeMarker("transportMarker");
       }
+
+      function updateGallery(){
+        let images = [];
+         fetch("/portals").then(
+          response => response.json()).then(
+            data => {
+              console.log(data);
+              for(let i = 0; i < (data.length < 18 ? data.length : 18); i++){
+                images.push(data[i]);
+              }
+              console.log(images);
+              let imgs = document.getElementsByClassName("portal-thumbnail");
+
+              for(let i = 0; i < images.length; i++){
+                console.log("IMAGE: " + images[i]);
+                imgs[i].setAttribute("src","/images/panoramas/"+images[i]);
+              }
+            }
+          );
+      }
+
+      function toggleGallery(){
+        let gallery = document.getElementById("portal-gallery");
+        if(gallery.style.opacity == 1){
+          gallery.style.opacity = "0";
+          gallery.style.pointerEvents = "none";
+        }
+        else{
+          gallery.style.opacity = "1";
+          gallery.style.pointerEvents = "all";
+        }
+      }
+
+      function copyPortalID(element){
+        let im = element.src.split('.');
+        im = im.slice(0,im.length-1).join();
+        im = im.split("/");
+        im = im[im.length-1];
+        document.getElementById("create-marker-text-id-link").value = im;
+        copyToClipboard(im);
+        toggleGallery();
+      }
+
       viewer.on('click', (e, data) => {
         console.log("CLICK");
         if(!data.rightclick){
@@ -88,7 +262,7 @@
           }
           else{
             clickLocs.push([data.longitude,data.latitude]);
-            updatePolygonRadMarker("transportMarker", clickLocs);
+            updatePolygonRadMarkerPosition("transportMarker", clickLocs);
           }
         }
       });

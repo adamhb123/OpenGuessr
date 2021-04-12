@@ -4,6 +4,7 @@ const fs = require("fs");
 const uploadedImagesLocation = "/images/panoramas/";
 const uploadedPortalsLocation = "/portals/";
 const pubdir = __dirname + "/../public";
+const utility = require("../utility");
 
 var passedVariable = null;
 
@@ -20,41 +21,6 @@ function polygonRadToString(polygonRad){
     }
     return strng;
 }
-function writeLocFile(filename, imageFilename, polygonRad, portalDesc){
-  //fs.readFile(__dirname + "/../public" + uploaded_images_location + passedVariable, function(err, data) {
-  fs.readFile(imageFilename, function(err, data) {
-    if (err) throw err;
-    // Encode to base64
-    let encodedImage = Buffer.from(data, 'binary').toString('base64');
-    //fs.writeFile(__dirname + "/../public" + uploaded_portals_location + filename,encodedImage, function (err,data) {\
-    fs.writeFile(filename, encodedImage, function(err, dataWrite) {
-      if (err) throw err;
-      let imspl = imageFilename.split('.');
-      const appendee = ("!@!"+JSON.stringify(polygonRad)+"!@!."+
-      imspl[imspl.length-1] + "!@!" + JSON.stringify(portalDesc));
-      console.log(appendee);
-      fs.appendFile(filename, appendee, function (err,dataApp) {
-        if (err) {
-          return console.log(err);
-        }
-        console.log(dataApp);
-
-      });
-    });
-  });
-}
-function readLocFile(filename){
-  fs.readFile(filename, function(err, data){
-    if(err) throw err;
-    data = data.toString().split('!@!');
-    fs.writeFile("./img"+data[2], Buffer.from(data[0], 'base64'), function(err, data){
-      let polygonRad = JSON.parse(data[1]);
-      let portalDesc = JSON.parse(data[2]);
-      console.log(polygonRad);
-      console.log(portalDesc);
-    });
-  });
-}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -65,14 +31,18 @@ router.get('/', function(req, res, next) {
   console.log("POST RECEIVED")
   if(passedVariable != null){
     let filename = passedVariable.split('.')[0] + ".prtl";
-    let polygonRad = req.body.polygonRad;
+    let polygonRads = req.body.polygonRads;
+    let markerIdLink = req.body.markerIdLink;
     console.log("Writing to file " + filename);
-    writeLocFile(pubdir + uploadedPortalsLocation + filename,
+    utility.writeLocFile(pubdir + uploadedPortalsLocation + filename,
                  pubdir + uploadedImagesLocation + passedVariable,
-                 polygonRad);
+                 polygonRads,
+                 markerIdLink
+               ).then(utility.readLocFile.bind(null,pubdir + uploadedPortalsLocation + filename));
     console.log("written");
-    //readLocFile(pubdir + uploaded_portals_location + filename);
-    };
+
+
+    }
   }
 );
 
