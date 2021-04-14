@@ -31,17 +31,14 @@ router.get('/', function(req, res, next) {
   console.log("POST RECEIVED")
   if(passedVariable != null){
     let filename = passedVariable.split('.')[0] + ".prtl";
-    let polygonRads = req.body.polygonRads;
-    let markerIdLink = req.body.markerIdLink;
-    console.log("Writing to file " + filename);
-    utility.writeLocFile(pubdir + uploadedPortalsLocation + filename,
-                 pubdir + uploadedImagesLocation + passedVariable,
-                 polygonRads,
-                 markerIdLink
-               ).then(utility.readLocFile.bind(null,pubdir + uploadedPortalsLocation + filename));
+    let markers = req.body.markers;
+    console.log(markers);
+    console.log(`Writing to file ${filename}`);
+    utility.writeLocFile(`${pubdir}${uploadedPortalsLocation}${filename}`,
+                 `${pubdir}${uploadedImagesLocation}${passedVariable}`,
+                 markers,
+               ).then(()=>{utility.readLocFile(pubdir + uploadedPortalsLocation + filename);});
     console.log("written");
-
-
     }
   }
 );
