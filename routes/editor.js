@@ -25,6 +25,7 @@ function polygonRadToString(polygonRad){
 /* GET home page. */
 router.get('/', function(req, res, next) {
   passedVariable = req.query.image;
+  console.log("BRUH");
   console.log(passedVariable);
   res.render('editor', { title: 'CSHGuessr', panorama: uploadedImagesLocation + passedVariable});
 }).post('/', function(req, res, next){

@@ -20,9 +20,14 @@ a {
   position:relative;
   background-color:white;
   color:black;
-  width:100%;
+  width:96%;
   height:33%;
+  padding-left:2%;
+  padding-right:2%;
   font-size: 3vh;
+  border-style: solid;
+  border-width: 1px;
+
 }
 .create-marker-button {
   position:relative;
@@ -40,7 +45,7 @@ a {
   width:15vw;
   height:20vh;
 }
-.controller-subcontainer.left-align{
+.controller-subcontainer.top-align.left-align{
   position:absolute;
   top: 0;
   left: 0;
@@ -48,10 +53,20 @@ a {
   width:15vw;
   height:20vh;
 }
-.controller-subcontainer.right-align{
+.controller-subcontainer.top-align.right-align{
   position: absolute;
   right:0;
   top:0;
+}
+
+#mode-text-div{
+  position:relative;
+  text-align:center;
+  height:33%;
+}
+#mode-text-div>h1{
+  margin:0;
+  padding-top:10px;
 }
 
 #portal-gallery{
@@ -85,6 +100,9 @@ a {
   object-fit: cover;
   cursor: pointer;
 
+}
+.psv-markers{
+  cursor: pointer !important;
 }
 #viewer {
   position: absolute;

@@ -11,7 +11,7 @@ router.post('/', function(req, res){
   req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename) {
         let fnspl = filename.split(".");
-            let new_filename = uuidv4() + "." + fnspl[fnspl.length-1];
+            let new_filename = uuidv4().replace('.','') + "." + fnspl[fnspl.length-1];
             console.log("Uploading " + filename + " as " + new_filename);
             //Path where image will be uploaded
             fstream = fs.createWriteStream(__dirname + '/../public/images/panoramas/' + new_filename);

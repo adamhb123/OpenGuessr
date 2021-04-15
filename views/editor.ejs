@@ -13,74 +13,79 @@
 </head>
 <body>
   <div id="portal-controls">
-    <div class="controller-subcontainer left-align">
-      <input class="create-marker-text" id="create-marker-text-id-link" type="text"></input>
+    <div class="controller-subcontainer top-align left-align">
+      <input class="create-marker-text" id="create-marker-text-id-link" type="text" placeholder="Enter Link Portal ID"></input>
       <button class="create-marker-button" onclick="addMarker()">Create Marker</button>
-      <button class="create-marker-button" onclick="finalizeMarkers()">Finalize Portal</button>
+      <button class="create-marker-button" onclick="finalizePortal()">Finalize Portal</button>
+      <button class="create-marker-button" onclick="finalizePortal()">Return to Portal</button>
     </div>
-    <div class="controller-subcontainer right-align">
+    <div class="controller-subcontainer top-align right-align">
+      <div id="mode-text-div">
+        <h1>Mode: Roaming</h1>
+
+      </div>
       <button class="create-marker-button" id="portal-gallery-button" onclick="updateGallery().then(toggleGallery());">Portal Gallery</button>
     </div>
   </div>
   <div id="portal-gallery">
     <div class="flex-grid">
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail" src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
-      </div>
-    </div>
-    <div class="flex-grid">
-      <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
-      </div>
-      <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
-      </div>
-      <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
-      </div>
-      <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
-      </div>
-      <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
-      </div>
-      <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
     </div>
     <div class="flex-grid">
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
       </div>
       <div class="col">
-        <img class="portal-thumbnail" onclick="copyPortalID(this)" src=""></img>
+        <img class="portal-thumbnail"  src=""></img>
+      </div>
+    </div>
+    <div class="flex-grid">
+      <div class="col">
+        <img class="portal-thumbnail"  src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail"  src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail"  src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail"  src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail"  src=""></img>
+      </div>
+      <div class="col">
+        <img class="portal-thumbnail"  src=""></img>
       </div>
     </div>
   </div>
@@ -90,8 +95,9 @@
       /* Photosphere */
       let creatingRect = false;
       let clickLocs = [];
-      let locMasterList = [];
+      let markerMasterList = [];
       let createdMarkersCount = 0;
+      let allowMarkerCreation = true;
       console.log('<%= panorama %>');
       if('<%= panorama %>'.includes('undefined')) window.location.replace("/upload");
       var viewer = new PhotoSphereViewer.Viewer({
@@ -148,12 +154,6 @@
             markersPlugin.on("select-marker", onClick);
         }
       }
-
-      function createPortalRectMarker(id, long, lat, width, height, imurl){
-        createRectMarker(id,long,lat,width,height,(e,marker)=>{
-          viewer.setPanorama(imurl);
-        });
-      }
       function updatePolygonRadMarkerPosition(id, newPolygonRad){
         markersPlugin.updateMarker({
           id: id,
@@ -161,7 +161,6 @@
         });
       }
       function updatePolygonRadMarkerStyle(id, fillColor, strokeColor, strokeWidth){
-        console.log("STYLE " + fillColor.getCSS());
         markersPlugin.updateMarker({
           id: id,
           svgStyle: {
@@ -203,19 +202,26 @@
                reject(`Portal '${portalId}' does not exist!`);
              }
            );
-
         });
       }
 
       function hideMarkers(markers){
-        markers.forEach(marker => {
-          markersPlugin.hideMarker(marker);
+        console.log(markers);
+        return new Promise((resolve, reject)=>{
+          if(markers == null) reject("markers cannot be null");
+          markers.forEach(marker => {
+            markersPlugin.hideMarker(marker.markerId);
+          });
+          resolve("Markers successfully hidden!");
         })
       }
 
       function viewPortal(idLink, fileType){
-        //hideMarkers();
-        viewer.setPanorama(`/images/panoramas/${idLink}.${fileType}`);
+        allowMarkerCreation = false;
+        return new Promise((resolve, reject) => {
+          console.log(`loading /images/panoramas/${idLink}.${fileType}`);
+          viewer.setPanorama(`/images/panoramas/${idLink}.${fileType}`).then(hideMarkers(markerMasterList.filter(marker => marker.idLink == idLink))).then(resolve(`Successfully viewing portal ${idLink}!`));
+        })
       }
 
       function loadPortal(idLink, fileType){
@@ -226,19 +232,19 @@
       }
 
       function transitionToViewPortal(idLink){
-        console.log("transition");
-        getImageFileTypeFromPortalId(idLink).then(ft => {
-          viewPortal(idLink, ft);
-        });
+        getImageFileTypeFromPortalId(idLink).then(ft => viewPortal(idLink, ft));
       }
 
       function addMarker(){
+        if(!allowMarkerCreation) return;
         let idLink = document.querySelector("#create-marker-text-id-link").value;
+        console.log(`IDLINK: ${idLink}`);
         let tempId = createUUID();
-        locMasterList.push(new Marker(idLink, tempId, clickLocs));
+        markerMasterList.push(new Marker(idLink, tempId, clickLocs));
         createPolygonRadMarker(tempId, clickLocs, onClick = (e, marker, data)=>{
           console.log(data);
           transitionToViewPortal(idLink);
+
         });
         updatePolygonRadMarkerStyle(tempId,
           new RGBA(225, 28, 82, .2),
@@ -247,16 +253,20 @@
         clickLocs = []
       }
       function removeMarker(markerId){
-        markersPlugin.removeMarker(locMasterList.filter(marker => markerId == marker.markerId)[0]);
-        locMasterList = locMasterList.filter(emid => emid !== markerId);
+        return new Promise((resolve, reject)=>{
+          markersPlugin.removeMarker(markerMasterList.filter(marker => markerId == marker.markerId)[0]);
+          markerMasterList = markerMasterList.filter(emid => emid !== markerId);
+          resolve(`Marker ${markerId} removed!`)
+        })
+
       }
-      function finalizeMarkers(){
+      function finalizePortal(){
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "editor", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
-            "type": "finalize marker",
-            "markers": locMasterList,
+            "type": "finalize portal",
+            "markers": markerMasterList,
         }));
       }
 
@@ -266,16 +276,22 @@
            fetch("/portals").then(
             response => response.json()).then(
               data => {
+                let boxCount = 18;
                 console.log(data);
-                for(let i = 0; i < (data.length < 18 ? data.length : 18); i++){
+                for(let i = 0; i < (data.length < boxCount ? data.length : boxCount); i++){
                   images.push(data[i]);
                 }
                 console.log(images);
                 let imgs = document.getElementsByClassName("portal-thumbnail");
 
                 for(let i = 0; i < images.length; i++){
-                  console.log("IMAGE: " + images[i]);
+                  //  console.log("IMAGE: " + images[i]);
                   imgs[i].setAttribute("src","/images/panoramas/"+images[i]);
+                  imgs[i].setAttribute("onclick","copyPortalId(this)");
+                  imgs[i].style.cursor = "pointer";
+                }
+                for(let i = images.length; i < boxCount; i++){
+                  imgs[i].style.cursor = "default";
                 }
                 resolve(true);
               }
@@ -295,7 +311,7 @@
         }
       }
 
-      function copyPortalID(element){
+      function copyPortalId(element){
         let im = element.src.split('.');
         im = im.slice(0,im.length-1).join();
         im = im.split("/");
@@ -308,6 +324,7 @@
 
       viewer.on('click', (e, data) => {
         if(!data.rightclick){
+          if(!allowMarkerCreation) return;
           if(clickLocs.length == 0){
             clickLocs = [[data.longitude, data.latitude]];
             createPolygonRadMarker("transportMarker", clickLocs);
