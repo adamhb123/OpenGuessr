@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
-const utility = require("../utility");
+const utility = require("../jsmodules/utility");
 /* GET create page. */
 router.get('/', function(req, res, next) {
   let files = fs.readdirSync(__dirname+ "/../public/portals", {withFileTypes: false });

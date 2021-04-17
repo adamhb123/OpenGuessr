@@ -22,9 +22,9 @@ a {
   color:black;
   width:96%;
   height:33%;
-  padding-left:2%;
-  padding-right:2%;
-  font-size: 3vh;
+  margin:0;
+  padding: 0 2% 0 2%;
+  font-size: 3.2vh;
   border-style: solid;
   border-width: 1px;
 
@@ -40,22 +40,22 @@ a {
 
 .controller-subcontainer{
   position:absolute;
-  top: 0;
+  top: 1%;
   z-index:100;
   width:15vw;
   height:20vh;
 }
 .controller-subcontainer.top-align.left-align{
   position:absolute;
-  top: 0;
-  left: 0;
+  top: 1%;
+  left: .5%;
   z-index:100;
   width:15vw;
   height:20vh;
 }
 .controller-subcontainer.top-align.right-align{
   position: absolute;
-  right:0;
+  right:.5%;
   top:0;
 }
 
@@ -69,16 +69,30 @@ a {
   padding-top:10px;
 }
 
-#portal-gallery{
+.portal-gallery{
   position: absolute;
   left:10vw; top:10vh;
   width:80vw;
   height:80vh;
   background-color: rgba(255,255,255, 0.8);
   z-index:101;
-  opacity: 0;
-  pointer-events: none;
 }
+.portal-gallery.invisible{
+  opacity: 0;
+  pointer-events:  none;
+}
+.portal-gallery.visible{
+  opacity: 1;
+  pointer-events: all;
+}
+.portal-thumbnail.empty {
+  cursor: default;
+}
+.portal-thumbnail.occupied {
+  cursor: pointer;
+}
+
+
 .flex-grid {
   position:relative;
   display: flex;

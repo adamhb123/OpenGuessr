@@ -4,7 +4,7 @@ const fs = require("fs");
 const uploadedImagesLocation = "/images/panoramas/";
 const uploadedPortalsLocation = "/portals/";
 const pubdir = __dirname + "/../public";
-const utility = require("../utility");
+const utility = require("../jsmodules/utility");
 
 var passedVariable = null;
 
@@ -23,6 +23,7 @@ function polygonRadToString(polygonRad){
 }
 
 /* GET home page. */
+var ref = null;
 router.get('/', function(req, res, next) {
   passedVariable = req.query.image;
   console.log("BRUH");
@@ -30,16 +31,22 @@ router.get('/', function(req, res, next) {
   res.render('editor', { title: 'CSHGuessr', panorama: uploadedImagesLocation + passedVariable});
 }).post('/', function(req, res, next){
   console.log("POST RECEIVED")
-  if(passedVariable != null){
-    let filename = passedVariable.split('.')[0] + ".prtl";
-    let markers = req.body.markers;
-    console.log(markers);
-    console.log(`Writing to file ${filename}`);
-    utility.writeLocFile(`${pubdir}${uploadedPortalsLocation}${filename}`,
-                 `${pubdir}${uploadedImagesLocation}${passedVariable}`,
-                 markers,
-               ).then(()=>{utility.readLocFile(pubdir + uploadedPortalsLocation + filename);});
-    console.log("written");
+  console.log("TYPE: " + req.body.type);
+  if(req.body.type == "finalize portal"){
+    if(passedVariable != null){
+      let filename = passedVariable.split('.')[0] + ".prtl";
+      let markers = req.body.markers;
+      console.log(markers);
+      console.log(`Writing to file ${filename}`);
+      utility.writeLocFile(`${pubdir}${uploadedPortalsLocation}${filename}`,
+                   `${pubdir}${uploadedImagesLocation}${passedVariable}`,
+                   markers,
+                 ).then(()=>{utility.readLocFile(pubdir + uploadedPortalsLocation + filename);});
+      console.log("written");
+      }
+    }
+    else if(req.body.type == "return portal"){
+      console.log("Returing portal");
     }
   }
 );
