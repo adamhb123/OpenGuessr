@@ -4,6 +4,7 @@ OpenGuessr is a GeoGuessr-like game that enables users to upload, edit, create, 
 ## Example
 Here is an example of the editor in use:
 
+https://user-images.githubusercontent.com/25161597/115099577-d6f50700-9f04-11eb-887b-fdb18ba48903.mp4
 
 ## Installation
 
