@@ -12,11 +12,12 @@ Enter the following commands in order to install OpenGuessr and its dependencies
 
 ```bash
 git clone https://github.com/adamhb123/OpenGuessr
+cd OpenGuessr
 npm install
 ```
 
 ## Usage
-To run the server, run the following in the root directory:
+To run the server, run the following in the project root directory:
 
 ```bash
 node bin/www
