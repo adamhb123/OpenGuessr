@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const { v4: uuidv4 } = require('uuid');
 /* GET create page. */
 router.get('/', function(req, res, next) {
-  res.render('upload', { title: 'CSHGuessr' });
+  res.render('upload', { title: 'OpenGuessr' });
 });
 router.post('/', function(req, res){
   var fstream;
@@ -21,6 +21,5 @@ router.post('/', function(req, res){
                 res.redirect('editor?image='+encodeURIComponent(new_filename));
             });
         });
-})
-
+});
 module.exports = router;

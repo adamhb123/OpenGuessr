@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
   passedVariable = req.query.image;
   console.log("BRUH");
   console.log(passedVariable);
-  res.render('editor', { title: 'CSHGuessr', panorama: uploadedImagesLocation + passedVariable});
+  res.render('editor', { title: 'OpenGuessr', panorama: uploadedImagesLocation + passedVariable});
 }).post('/', function(req, res, next){
   console.log("POST RECEIVED")
   console.log("TYPE: " + req.body.type);
