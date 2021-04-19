@@ -4,6 +4,7 @@ OpenGuessr is a GeoGuessr-like game that enables users to upload, edit, create, 
 ## Example
 Here is an example of the editor in use:
 
+https://user-images.githubusercontent.com/25161597/115099577-d6f50700-9f04-11eb-887b-fdb18ba48903.mp4
 
 ## Installation
 
@@ -11,11 +12,12 @@ Enter the following commands in order to install OpenGuessr and its dependencies
 
 ```bash
 git clone https://github.com/adamhb123/OpenGuessr
+cd OpenGuessr
 npm install
 ```
 
 ## Usage
-To run the server, run the following in the root directory:
+To run the server, run the following in the project root directory:
 
 ```bash
 node bin/www
