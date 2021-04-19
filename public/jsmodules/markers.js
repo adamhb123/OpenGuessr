@@ -20,8 +20,8 @@ function RGBA(r, g, b, a) {
 export function init(_markersPlugin, _viewer) {
   markersPlugin = _markersPlugin;
   _viewer.on('click', (e, data) => {
-    Animations.sparkle(e.clientX, e.clientY);
     if (!data.rightclick) {
+      Animations.sparkle(data.clientX,data.clientY);
       console.log(Portals.allowMarkerCreation);
       if (!Portals.allowMarkerCreation) return;
       if (clickLocs.length == 0) {

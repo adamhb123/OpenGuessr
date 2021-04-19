@@ -1,6 +1,12 @@
 body {
   padding: 0px;
+  margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
 }
 
 a {
@@ -124,4 +130,13 @@ a {
   left: 0;
   width: 100vw;
   height: 100vh;
+}
+
+.animation-canvas{
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  pointer-events: none;
+
 }
