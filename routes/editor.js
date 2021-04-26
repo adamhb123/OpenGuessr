@@ -39,14 +39,14 @@ router.get('/', function(req, res, next) {
       console.log(markers);
       console.log(`Writing to file ${filename}`);
       utility.writeLocFile(`${pubdir}${uploadedPortalsLocation}${filename}`,
-                   `${pubdir}${uploadedImagesLocation}${passedVariable}`,
+                   `${passedVariable}`,
                    markers,
                  ).then(()=>{utility.readLocFile(pubdir + uploadedPortalsLocation + filename);});
       console.log("written");
       }
     }
     else if(req.body.type == "return portal"){
-      console.log("Returing portal");
+      console.log("Returning portal");
     }
   }
 );

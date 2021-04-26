@@ -23,9 +23,9 @@ export function choice(choiceList) {
   return choiceList[index];
 }
 
-export function sendPost(type, data){
+export function sendPost(type, data, link="editor"){
   let xhr = new XMLHttpRequest();
-  xhr.open("POST", "editor", true);
+  xhr.open("POST", link, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
   let dataObj = {
     "type": type

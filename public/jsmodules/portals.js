@@ -5,7 +5,7 @@ import * as Markers from "/jsmodules/markers.js";
 export var allowMarkerCreation = true;
 var viewer = null;
 
-export function init(_viewer){
+export function init(_viewer) {
   viewer = _viewer;
 }
 
@@ -14,7 +14,7 @@ export function setModeText(mode) {
   textCont.innerHTML = `Mode: ${mode}`;
 }
 
-export function getImageFileTypeFromPortalId(portalId) {
+export function getImageFromPortalId(portalId) {
   return new Promise((resolve, reject) => {
     fetch("/portals").then(
       response => response.json()).then(
@@ -25,7 +25,7 @@ export function getImageFileTypeFromPortalId(portalId) {
           let id = dataSplit.slice(0, dataSplit.length - 1).join();
           console.log(`${id} == ${portalId} = ${id==portalId}`);
           if (id == portalId) {
-            resolve(dataSplit[dataSplit.length - 1]);
+            resolve(data[i]);
           }
         }
         reject(`Portal '${portalId}' does not exist!`);
@@ -34,28 +34,27 @@ export function getImageFileTypeFromPortalId(portalId) {
   });
 }
 
-export function viewPortal(idLink, fileType) {
+export function viewPortal(imageFilename) {
   allowMarkerCreation = false;
   setModeText("Roam");
   return new Promise((resolve, reject) => {
-    console.log(`loading /images/panoramas/${idLink}.${fileType}`);
+    console.log(`loading /images/panoramas/${imageFilename}`);
     //.filter(marker => marker.idLink == idLink)
-    viewer.setPanorama(`/images/panoramas/${idLink}.${fileType}`).then(Markers.hide()).then(resolve(`Successfully viewing portal ${idLink}!`));
+    viewer.setPanorama(`/images/panoramas/${imageFilename}`).then(Markers.hide()).then(resolve(`Successfully viewing portal w/ IMG=${imageFilename}!`));
   })
 }
 
-export function loadPortal(idLink, fileType) {
+export function loadPortal(imageFilename) {
   //  Needs to load portal markers by getting the json data with all the
   //  portal data in it.
   markersPlugin.clearMarkers();
-  viewer.setPanorama(`/images/panoramas/${idLink}.${fileType}`);
+  viewer.setPanorama(`/images/panoramas/${imageFilename}`);
 }
 
 export function transitionToViewPortal(idLink) {
-  getImageFileTypeFromPortalId(idLink).then(ft => viewPortal(idLink, ft));
+  getImageFromPortalId(idLink).then(imageLink => {viewPortal(imageLink);
+  });
 }
-
-
 
 export function finalizePortal() {
   Utility.sendPost("finalize portal", {
