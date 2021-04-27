@@ -4,6 +4,7 @@ const fs = require('fs');
 const utility = require("../jsmodules/utility");
 /* GET create page. */
 router.get('/', function(req, res, next) {
+  if(req.body.)
   let files = fs.readdirSync(__dirname+ "/../public/portals", {withFileTypes: false });
   res.setHeader('Content-Type', 'application/json');
   for(let i = 0; i < files.length; i++){
