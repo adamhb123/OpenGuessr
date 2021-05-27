@@ -11,14 +11,12 @@
   <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/photo-sphere-viewer.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.js"></script>
-
-
 </head>
 
 <body>
   <div id="portal-controls">
     <div class="controller-subcontainer top-align left-align">
-      <input class="create-marker-text" id="create-marker-text-id-link" type="text" placeholder="Enter Link Portal ID"></input>
+      <input class="create-marker-text" id="create-marker-text-id-link" type="text" placeholder="Enter Link Portal ID">
       <button id="add-marker-button" class="create-marker-button">Create Marker</button>
       <button id="final-marker-button" class="create-marker-button">Finalize Portal</button>
       <button id="return-marker-button" class="create-marker-button">Return to Portal</button>
@@ -27,15 +25,18 @@
       <div id="mode-text-div">
         <h1>Mode: Roaming</h1>
       </div>
-      <button class="create-marker-button" id="portal-gallery-button">Portal Gallery</button>
+      <div id="mode-text-div">
+        <h1>Map: Roaming</h1>
+      </div>
+      <button class="create-marker-button" id="gallery-button">Portal Gallery</button>
     </div>
   </div>
-  <div class="portal-gallery invisible">
+  <div class="gallery invisible">
     <% for (var i = 0; i < 3;  i++ ) { %>
     <div class="flex-grid">
       <% for (var j = 0; j < 6;  j++ ) { %>
       <div class="col">
-        <img class="portal-thumbnail" src=""></img>
+        <img class="gallery-thumbnail" src=""></img>
       </div>
       <% } %>
     </div>
@@ -48,6 +49,7 @@
     import * as Gallery from "/jsmodules/gallery.js";
     import * as Utility from "/jsmodules/utility.js";
     import * as Portals from "/jsmodules/portals.js";
+    import * as Maps from "/jsmodules/maps.js";
     import * as Animations from "/jsmodules/animations.js"
 
     var viewer = new PhotoSphereViewer.Viewer({
@@ -60,13 +62,23 @@
     var markersPlugin = viewer.getPlugin(PhotoSphereViewer.MarkersPlugin);
     Portals.init(viewer);
     Markers.init(markersPlugin, viewer);
+    let gallery = new Gallery.PortalGallery('<%= mapUUID %>');
     /* Button stuff */
-    document.getElementById("portal-gallery-button").onclick = () => {Gallery.update().then(Gallery.toggle())};
-    document.getElementById("add-marker-button").onclick = () => {Markers.add()};
-    document.getElementById("final-marker-button").onclick = () => {Portals.finalizePortal()}
-    document.getElementById("return-marker-button").onclick = () => {Portals.returnPortal("<%= panorama %>")}
+    document.getElementById("gallery-button").onclick = () => {
+      gallery.update().then(gallery.toggle())
+    };
+    document.getElementById("add-marker-button").onclick = () => {
+      Markers.add();
+    };
+    document.getElementById("final-marker-button").onclick = () => {
+      Portals.finalizePortal();
+    }
+    document.getElementById("return-marker-button").onclick = () => {
+      Portals.returnPortal("<%= panorama %>");
+    }
+
     function onloadActions() {
-      Gallery.update();
+      gallery.update();
       let intid = setInterval(() => {
         if (viewerCanvas == null) {
           viewerCanvas = document.getElementsByClassName("psv-canvas");
@@ -78,7 +90,6 @@
     }
 
     /* Photosphere */
-    let createdMarkersCount = 0;
     if ('<%= panorama %>'.includes('undefined')) window.location.replace("/upload");
 
 

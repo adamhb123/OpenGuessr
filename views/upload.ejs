@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <!-- Photosphere viewer dependencies -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uevent@2/browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/photo-sphere-viewer.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.js"></script>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
+
 <body>
-  <div id="file-upload">
-    <form method='post' action='upload' enctype="multipart/form-data">
-    <input type='file' name='file-uploaded' id="file-button">
-    <input type='submit' value="Upload">
-  </form>
+  <div id='file-upload'>
+    <form method='post' action='upload' enctype='multipart/form-data'>
+      <div id="map-creation-section">
+        <input type="text" name="new-map-name" id="new-map-name" placeholder="Map name">
+      </div>
+      <select id='map' name='map' placeholder='Select a Map'>
+        <% for(let i=0; i<maps.length;i++) {%>
+        <option value='<%= maps[i].name %>'><%= maps[i].name %></option>
+        <% } %>
+        <option value='new-map'>New Map</option>
+      </select>
+      <input type='file' name='file-uploaded' id='file-button'>
+      <input type='submit' value='Upload'>
+
+    </form>
   </div>
 
+  <script>
+    let displayMapCreation = document.getElementById('map-creation-section');
+    setInterval(() => {
+      console.log(document.getElementById("map").value);
+      if (document.getElementById('map').value == 'new-map') {
+        displayMapCreation.style.display = "block";
+      } else {
+        displayMapCreation.style.display = "none";
+      }
+    }, 100);
+  </script>
 </body>
+
 </html>

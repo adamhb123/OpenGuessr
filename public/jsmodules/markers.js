@@ -17,11 +17,11 @@ function RGBA(r, g, b, a) {
   }
 }
 
-export function init(_markersPlugin, _viewer) {
+function init(_markersPlugin, _viewer) {
   markersPlugin = _markersPlugin;
   _viewer.on('click', (e, data) => {
     if (!data.rightclick) {
-      Animations.sparkle(data.clientX,data.clientY);
+      Animations.sparkle(data.clientX, data.clientY);
       console.log(Portals.allowMarkerCreation);
       if (!Portals.allowMarkerCreation) return;
       if (clickLocs.length == 0) {
@@ -40,13 +40,13 @@ export function init(_markersPlugin, _viewer) {
   });
 }
 
-export function Marker(idLink, markerId, polygonRad) {
+function Marker(idLink, markerId, polygonRad) {
   this.idLink = idLink;
   this.markerId = markerId;
   this.polygonRad = polygonRad;
 }
 
-export function createPolygonRadMarker(id, polygonRad, onClick) {
+function createPolygonRadMarker(id, polygonRad, onClick) {
   markersPlugin.addMarker({
     id: id,
     polygonRad: polygonRad,
@@ -56,14 +56,14 @@ export function createPolygonRadMarker(id, polygonRad, onClick) {
   }
 }
 
-export function updatePolygonRadMarkerPosition(id, newPolygonRad) {
+function updatePolygonRadMarkerPosition(id, newPolygonRad) {
   markersPlugin.updateMarker({
     id: id,
     polygonRad: newPolygonRad,
   });
 }
 
-export function updatePolygonRadMarkerStyle(id, fillColor, strokeColor, strokeWidth) {
+function updatePolygonRadMarkerStyle(id, fillColor, strokeColor, strokeWidth) {
   markersPlugin.updateMarker({
     id: id,
     svgStyle: {
@@ -74,7 +74,7 @@ export function updatePolygonRadMarkerStyle(id, fillColor, strokeColor, strokeWi
   });
 }
 
-export function hide(markers = markersMasterList) {
+function hide(markers = markersMasterList) {
   console.log(markers);
   return new Promise((resolve, reject) => {
     if (markers == null) reject("markers cannot be null");
@@ -85,7 +85,7 @@ export function hide(markers = markersMasterList) {
   })
 }
 
-export function unhide(markers = markersMasterList) {
+function unhide(markers = markersMasterList) {
   console.log(markers);
   return new Promise((resolve, reject) => {
     if (markers == null) reject("markers cannot be null");
@@ -96,7 +96,7 @@ export function unhide(markers = markersMasterList) {
   })
 }
 
-export function add() {
+function add() {
   let idLink = document.querySelector("#create-marker-text-id-link").value;
   console.log(`IDLINK: ${idLink}`);
   let tempId = Utility.createUUID();
@@ -113,10 +113,23 @@ export function add() {
   clickLocs = []
 }
 
-export function removeMarker(markerId) {
+function removeMarker(markerId) {
   return new Promise((resolve, reject) => {
     markersPlugin.removeMarker(markersMasterList.filter(marker => markerId == marker.markerId)[0]);
     markersMasterList = markersMasterList.filter(emid => emid !== markerId);
     resolve(`Marker ${markerId} removed!`);
   })
 }
+
+export {
+  init,
+  Marker,
+  markersMasterList,
+  createPolygonRadMarker,
+  updatePolygonRadMarkerPosition,
+  updatePolygonRadMarkerStyle,
+  hide,
+  unhide,
+  add,
+  removeMarker
+};

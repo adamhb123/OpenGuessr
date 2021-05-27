@@ -75,7 +75,7 @@ a {
   padding-top:10px;
 }
 
-.portal-gallery{
+.gallery{
   position: absolute;
   left:10vw; top:10vh;
   width:80vw;
@@ -83,18 +83,18 @@ a {
   background-color: rgba(255,255,255, 0.8);
   z-index:101;
 }
-.portal-gallery.invisible{
+.gallery.invisible{
   opacity: 0;
   pointer-events:  none;
 }
-.portal-gallery.visible{
+.gallery.visible{
   opacity: 1;
   pointer-events: all;
 }
-.portal-thumbnail.empty {
+.gallery-thumbnail.empty {
   cursor: default;
 }
-.portal-thumbnail.occupied {
+.gallery-thumbnail.occupied {
   cursor: pointer;
 }
 
@@ -139,4 +139,8 @@ a {
   z-index: 99;
   pointer-events: none;
 
+}
+
+#map-selection-heading{
+  text-align: center;
 }

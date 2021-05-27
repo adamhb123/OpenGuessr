@@ -1,14 +1,21 @@
+//  various dev-defined globals
+const MAX_UPLOAD_SIZE = '25mb';
+
+// module imports
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const busboy = require('connect-busboy');
+const busboyBodyParser = require("busboy-body-parser");
 
 const indexRouter = require('./routes/index');
 const createRouter = require('./routes/upload');
 const editorRouter = require('./routes/editor');
-const portalRouter = require('./routes/portals');
+const portalsRouter = require('./routes/portals');
+const mapSelectionRouter = require('./routes/map_selection');
+const mapsRouter = require('./routes/maps');
 
 const compression = require('compression');
 
@@ -19,6 +26,8 @@ app.set('view engine', 'ejs');
 
 //  various setup commands
 app.use(busboy());
+app.use(busboyBodyParser({limit: MAX_UPLOAD_SIZE}));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,7 +41,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/upload', createRouter);
 app.use('/editor', editorRouter);
-app.use('/portals', portalRouter);
+app.use('/portals', portalsRouter);
+app.use('/maps', mapsRouter);
+app.use('/map-selection', mapSelectionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

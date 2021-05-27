@@ -1,41 +1,99 @@
 import * as Portals from "/jsmodules/portals.js";
+import * as Maps from "/jsmodules/maps.js";
 
-export function update(){
-  return new Promise((resolve, reject)=>{
-    let images = [];
-     fetch("/portals").then(
-      response => response.json()).then(
+function PortalGallery(mapUUID) {
+  this.update = () => {
+    return new Promise((resolve, reject) => {
+      let images = [];
+      fetch("/portals",{
+        method: 'POST',
+        headers: {
+          'Accept':'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({mapUUID:mapUUID}),
+      }).then(
+        response => response.json()).then(
         data => {
           let boxCount = 18;
-          console.log(data);
-          for(let i = 0; i < (data.length < boxCount ? data.length : boxCount); i++){
-            images.push(data[i]);
+          for (let i = 0; i < (data.length < boxCount ? data.length : boxCount); i++) {
+            images.push(data[i].image);
           }
           console.log(images);
-          let imgs = document.getElementsByClassName("portal-thumbnail");
+          let imgs = document.getElementsByClassName("gallery-thumbnail");
           console.log("Images: " + imgs.length);
-          for(let i = 0; i < images.length; i++){
-            //  console.log("IMAGE: " + images[i]);
-            imgs[i].setAttribute("src","/images/panoramas/"+images[i]);
-            imgs[i].onclick = () => {Portals.copyPortalId(imgs[i])};
+          for (let i = 0; i < images.length; i++) {
+            imgs[i].setAttribute("src", "/images/panoramas/" + images[i]);
+            imgs[i].onclick = () => {
+              Portals.copyPortalId(imgs[i]);
+              this.toggle();
+            };
             console.log(imgs[i].onclick);
-            imgs[i].className = "portal-thumbnail occupied";
+            imgs[i].className = "gallery-thumbnail occupied";
           }
-          for(let i = images.length; i < boxCount; i++){
-            imgs[i].className = "portal-thumbnail empty";
+          for (let i = images.length; i < boxCount; i++) {
+            imgs[i].className = "gallery-thumbnail empty";
           }
-          resolve(true);
+          resolve("Finished loading portal gallery");
         }
       );
-  })
+    })
+  };
+  this.toggle = () => {
+    let gallery = document.getElementsByClassName("gallery")[0];
+    if (gallery.className == "gallery visible") {
+      gallery.className = "gallery invisible";
+    } else {
+      gallery.className = "gallery visible";
+    }
+  };
 }
 
-export function toggle(){
-  let gallery = document.getElementsByClassName("portal-gallery")[0];
-  if(gallery.className == "portal-gallery visible"){
-    gallery.className = "portal-gallery invisible";
-  }
-  else{
-    gallery.className = "portal-gallery visible";
-  }
+function MapGallery() {
+  this.update = () => {
+    return new Promise((resolve, reject) => {
+      let images = [];
+      fetch("/maps").then(
+        response => response.json()).then(
+        data => {
+          let imgs = document.getElementsByClassName("gallery-thumbnail");
+          console.log("Images: " + imgs.length);
+          let boxCount = 18;
+          console.log(data);
+          for (let i = 0; i < (data.length < boxCount ? data.length : boxCount); i++) {
+            images.push(data[i].portals[0].image);
+          }
+          console.log(images);
+          console.log("Images: " + imgs.length);
+          for (let i = 0; i < images.length; i++) {
+            imgs[i].setAttribute("src", "/images/panoramas/" + images[i]);
+            imgs[i].onclick = () => {
+              Portals.copyPortalId(imgs[i]);
+              this.toggle();
+            };
+            console.log(imgs[i].onclick);
+            imgs[i].className = "gallery-thumbnail occupied";
+          }
+          for (let i = images.length; i < boxCount; i++) {
+            imgs[i].className = "gallery-thumbnail empty";
+          }
+
+          resolve("Finished loading map gallery");
+        }
+      );
+    })
+  };
+  this.toggle = () => {
+    let gallery = document.getElementsByClassName("gallery")[0];
+    if (gallery.className == "gallery visible") {
+      gallery.className = "gallery invisible";
+    } else {
+      gallery.className = "gallery visible";
+    }
+  };
 }
+
+export {
+  PortalGallery,
+  MapGallery
+};
