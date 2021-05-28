@@ -1,8 +1,2 @@
-*.png
-*.jpg
-*.gif
-*.prtl
 package-lock.json
-public/images/
-public/portals/
 node_modules/
