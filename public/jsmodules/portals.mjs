@@ -1,6 +1,6 @@
-import * as Gallery from "/jsmodules/gallery.js";
-import * as Utility from "/jsmodules/utility.js";
-import * as Markers from "/jsmodules/markers.js";
+import * as Gallery from "/jsmodules/gallery.mjs";
+import * as Utility from "/jsmodules/utility.mjs";
+import * as Markers from "/jsmodules/markers.mjs";
 
 var allowMarkerCreation = true;
 var viewer = null;
@@ -50,7 +50,7 @@ function setModeText(mode) {
 function finalizePortal() {
   Utility.sendPost("editor", "finalize portal", {
     "markers": Markers.markersMasterList
-  }); 
+  });
 }
 
 function returnPortal(originalPortal) {

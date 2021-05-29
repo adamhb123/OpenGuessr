@@ -1,5 +1,5 @@
-import * as Portals from "/jsmodules/portals.js";
-import * as Maps from "/jsmodules/maps.js";
+import * as Portals from "/jsmodules/portals.mjs";
+import * as Maps from "/jsmodules/maps.mjs";
 
 function PortalGallery(mapUUID) {
   this.update = () => {

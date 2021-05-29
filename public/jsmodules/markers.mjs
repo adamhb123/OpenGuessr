@@ -1,6 +1,6 @@
-import * as Utility from "/jsmodules/utility.js";
-import * as Portals from "/jsmodules/portals.js";
-import * as Animations from "/jsmodules/animations.js";
+import * as Utility from "/jsmodules/utility.mjs";
+import * as Portals from "/jsmodules/portals.mjs";
+import * as Animations from "/jsmodules/animations.mjs";
 
 var markersPlugin = null;
 var markersMasterList = [];
