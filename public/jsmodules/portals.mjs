@@ -17,13 +17,14 @@ function Portal(uuid, image, markers) {
   }
 
   this.view = () => {
-    allowMarkerCreation = false;
+    /*allowMarkerCreation = false;
     setModeText("Roam");
     return new Promise((resolve, reject) => {
       console.log(`loading /images/panoramas/${this.image}`);
       //.filter(marker => marker.idLink == idLink)
       viewer.setPanorama(`/images/panoramas/${this.image}`).then(Markers.hide()).then(resolve(`Successfully viewing portal w/ IMG=${this.image}!`));
-    });
+    });*/
+    peekPortal(this.image);
   }
   this.getJSON = () => {
     return JSON.stringify({
@@ -32,6 +33,16 @@ function Portal(uuid, image, markers) {
       markers: this.markers
     });
   }
+}
+
+function peekPortal(portalImage){
+  allowMarkerCreation = false;
+  setModeText("Roam");
+  return new Promise((resolve, reject) => {
+    console.log(`loading /images/panoramas/${portalImage}`);
+    //.filter(marker => marker.idLink == idLink)
+    viewer.setPanorama(`/images/panoramas/${portalImage}`).then(Markers.hide()).then(resolve(`Successfully viewing portal w/ IMG=${this.image}!`));
+  });
 }
 
 function PortalFromJSON(jsonData) {
@@ -77,5 +88,6 @@ export {
   setModeText,
   finalizePortal,
   returnPortal,
-  copyPortalId
+  copyPortalId,
+  peekPortal
 }

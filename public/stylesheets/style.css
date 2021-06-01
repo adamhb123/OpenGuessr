@@ -13,117 +13,127 @@ a {
   color: #00B7FF;
 }
 
-#file-upload{
-  display:inline-block;
-  width:100px;
+#file-upload {
+  display: inline-block;
+  width: 100px;
 }
 
-#file-button{
-  margin-bottom:5px;
+#file-button {
+  margin-bottom: 5px;
 }
-.create-marker-text{
-  all:unset;
-  position:relative;
-  background-color:white;
-  color:black;
-  width:96%;
-  height:33%;
-  margin:0;
+
+.create-marker-text {
+  all: unset;
+  position: relative;
+  background-color: white;
+  color: black;
+  width: 96%;
+  height: 33%;
+  margin: 0;
   padding: 0 2% 0 2%;
   font-size: 3.2vh;
   border-style: solid;
   border-width: 1px;
-
 }
+
 .create-marker-button {
-  position:relative;
+  position: relative;
   background-color: #B0197E;
-  color:white;
-  width:100%;
-  height:33%;
+  color: white;
+  width: 100%;
+  height: 33%;
   cursor: pointer;
 }
 
-.controller-subcontainer{
-  position:absolute;
+.controller-subcontainer {
+  position: absolute;
   top: 1%;
-  z-index:100;
-  width:15vw;
-  height:20vh;
+  z-index: 100;
+  width: 15vw;
+  height: 20vh;
 }
-.controller-subcontainer.top-align.left-align{
-  position:absolute;
+
+.controller-subcontainer.top-align.left-align {
+  position: absolute;
   top: 1%;
   left: .5%;
-  z-index:100;
-  width:15vw;
-  height:20vh;
-}
-.controller-subcontainer.top-align.right-align{
-  position: absolute;
-  right:.5%;
-  top:0;
+  z-index: 100;
+  width: 15vw;
+  height: 20vh;
 }
 
-#mode-text-div{
-  position:relative;
-  text-align:center;
-  height:33%;
-}
-#mode-text-div>h1{
-  margin:0;
-  padding-top:10px;
+.controller-subcontainer.top-align.right-align {
+  position: absolute;
+  right: .5%;
+  top: 0;
 }
 
-.gallery{
-  position: absolute;
-  left:10vw; top:10vh;
-  width:80vw;
-  height:80vh;
-  background-color: rgba(255,255,255, 0.8);
-  z-index:101;
+#mode-text-div {
+  position: relative;
+  text-align: center;
+  height: 33%;
 }
-.gallery.invisible{
+
+#mode-text-div>h1 {
+  margin: 0;
+  padding-top: 10px;
+}
+
+.gallery {
+  position: absolute;
+  left: 10vw;
+  top: 10vh;
+  width: 80vw;
+  height: 80vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 101;
+}
+
+.gallery.invisible {
   opacity: 0;
-  pointer-events:  none;
+  pointer-events: none;
 }
-.gallery.visible{
+
+.gallery.visible {
   opacity: 1;
   pointer-events: all;
 }
+
 .gallery-thumbnail.empty {
   cursor: default;
 }
+
 .gallery-thumbnail.occupied {
   cursor: pointer;
 }
 
-
 .flex-grid {
-  position:relative;
+  position: relative;
   display: flex;
-  height:30%;
-  width:100%;
-  top:10%;
-
+  height: 30%;
+  width: 100%;
+  top: 10%;
 }
+
 .col {
   flex: 1;
-  text-align:center;
+  text-align: center;
   margin: 10px 10px;
   border: solid 1px;
 }
-.col > img{
-  width:100%;
-  height:100%;
+
+.col>img {
+  width: 100%;
+  height: 100%;
   user-select: none;
   object-fit: cover;
   cursor: pointer;
-
 }
-.psv-markers{
+
+.psv-markers {
   cursor: pointer !important;
 }
+
 #viewer {
   position: absolute;
   top: 0;
@@ -132,15 +142,20 @@ a {
   height: 100vh;
 }
 
-.animation-canvas{
+.animation-canvas {
   position: absolute;
   left: 0;
   top: 0;
   z-index: 99;
   pointer-events: none;
-
 }
 
-#map-selection-heading{
+#map-selection-heading {
   text-align: center;
+}
+#map-creation-section{
+  display: block;
+}
+#new-map-option{
+  background-color: #adefff;
 }

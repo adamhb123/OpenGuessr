@@ -12,29 +12,38 @@
       <div id="map-creation-section">
         <input type="text" name="new-map-name" id="new-map-name" placeholder="Map name">
       </div>
-      <select id='map' name='map' placeholder='Select a Map'>
+      <select id='map' name='map' placeholder='Select a Map' onchange="onMapChange()">
+        <option id="new-map-option" value='new-map' selected>New Map</option>
         <% for(let i=0; i<maps.length;i++) {%>
-        <option value='<%= maps[i].name %>'><%= maps[i].name %></option>
+        <option value='<%= maps[i].uuid %>'><%= maps[i].name %></option>
         <% } %>
-        <option value='new-map'>New Map</option>
       </select>
       <input type='file' name='file-uploaded' id='file-button'>
       <input type='submit' value='Upload'>
-
     </form>
   </div>
-
   <script>
-    let displayMapCreation = document.getElementById('map-creation-section');
-    setInterval(() => {
-      console.log(document.getElementById("map").value);
+    function onMapChange() {
+      let displayMapCreation = document.getElementById('map-creation-section');
       if (document.getElementById('map').value == 'new-map') {
         displayMapCreation.style.display = "block";
       } else {
         displayMapCreation.style.display = "none";
       }
-    }, 100);
+    }
+    //  Run onMapChange once to ensure page appears correctly
+    window.addEventListener('load', event => onMapChange());
+    window.addEventListener("pageshow", function(event) {
+      var historyTraversal = event.persisted ||
+        (typeof window.performance != "undefined" &&
+          window.performance.navigation.type === 2);
+      if (historyTraversal) {
+        // Handle page restore.
+        window.location.reload();
+      }
+    });
   </script>
+
 </body>
 
 </html>

@@ -101,10 +101,11 @@ function add() {
   console.log(`IDLINK: ${idLink}`);
   let tempId = Utility.createUUID();
   markersMasterList.push(new Marker(idLink, tempId, clickLocs));
+  
+  Utility.getPortalImageFile(idLink)
   createPolygonRadMarker(tempId, clickLocs, (e, marker, data) => {
     console.log(data);
-    Portals.transitionToViewPortal(idLink);
-
+    Portals.peekPortal();
   });
   updatePolygonRadMarkerStyle(tempId,
     new RGBA(225, 28, 82, .2),

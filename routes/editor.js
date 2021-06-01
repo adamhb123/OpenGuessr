@@ -20,25 +20,24 @@ const utility = require("../jsmodules/utility");
 
 /* GET home page. */
 let portalImage = null;
-let portalMap = null;
+let portalMapUUID = null;
 
 router.get("/", function(req, res) {
 	portalImage = req.query.image;
-	portalMap = req.query.map;
+	portalMapUUID = req.query.map;
 	res.render("editor", {
 		title: "OpenGuessr",
 		panorama: uploadedImagesLocation + portalImage,
-		mapUUID: portalMap
+		mapUUID: portalMapUUID
 	});
 });
 router.post("/", function(req, res) {
 	console.log("POST RECEIVED");
 	let type = req.body.type.toString();
-
 	if(type.includes("finalize portal")) {
 		//let filename = portalImage.split('.')[0] + ".prtl";
-		console.log(`${pubdir}/maps/${portalMap}`);
-		utility.addPortalToMapFile(`${pubdir}/maps/${portalMap}`, {
+		console.log(`${pubdir}/maps/${portalMapUUID}`);
+		utility.addPortalToMapFile(`${pubdir}/maps/${portalMapUUID}`, {
 			uuid: utility.createUUID(),
 			image: portalImage,
 			markers: req.body.markers

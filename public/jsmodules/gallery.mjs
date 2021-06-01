@@ -11,7 +11,7 @@ function PortalGallery(mapUUID) {
           'Accept':'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({mapUUID:mapUUID}),
+        body: JSON.stringify({mapFilename:mapUUID+".map"}),
       }).then(
         response => response.json()).then(
         data => {

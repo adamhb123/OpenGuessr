@@ -1,89 +1,105 @@
 const fs = require("fs");
 
 module.exports = {
-	fileExists: (fp) => {
-		console.log("FP " + fp);
-		try {
-			fs.accessSync(fp, fs.constants.R_OK);
-		} catch (err) {
-			return false;
-		}
-		return true;
-	},
+  fileExists: (fp) => {
+    try {
+      fs.accessSync(fp, fs.constants.R_OK);
+    } catch (err) {
+      return false;
+    }
+    return true;
+  },
 
-	createUUID: () => {
-		var dt = new Date().getTime();
-		var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-			var r = (dt + Math.random() * 16) % 16 | 0;
-			dt = Math.floor(dt / 16);
-			return (c == "x" ? r : (r & 0x3 | 0x8)).toString(16);
-		});
-		return uuid;
-	},
+  createUUID: () => {
+    var dt = new Date().getTime();
+    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+      var r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c == "x" ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+  },
 
-	addPortalToMapFile: (filename, portalJSON) => {
-		return new Promise((resolve, reject) => {
-			// let portalData = JSON.stringify(portalJSON);
-			if (module.exports.fileExists(filename)) {
-				module.exports.readMapFile(filename).then(map => {
-					map.portals = map.portals.filter(it => it.uuid !== portalJSON.uuid);
-					map.portals.push(portalJSON);
-					module.exports.writeMapFile(filename, map);
-					resolve(`Portal '${portalJSON.uuid}' successfully added to map '${map.name}'`);
-				});
-			} else {
-				reject(`Map '${filename}' does not exist!`);
-			}
-		});
-	},
+  addPortalToMapFile: (filename, portalJSON) => {
+    return new Promise((resolve, reject) => {
+      try {
+        // let portalData = JSON.stringify(portalJSON);
+        if (module.exports.fileExists(filename)) {
+          module.exports.readMapFile(filename).then(map => {
+            map.portals = map.portals.filter(it => it.uuid !== portalJSON.uuid);
+            map.portals.push(portalJSON);
+            module.exports.writeMapFile(filename, map);
+            resolve(`Portal '${portalJSON.uuid}' successfully added to map '${map.name}'`);
+          });
+        } else {
+          reject(`Map '${filename}' does not exist!`);
+        }
+      } catch (error) {
+        reject(error);
+      }
 
-	writeMapFile: (filename, map) => {
-		return new Promise((resolve, reject) => {
-			let data = JSON.stringify(map);
-			fs.writeFile(filename, data, (err) => {
-				if (err) reject(err);
-				resolve(`Map file ${filename} written successfully!`);
-			});
-		});
-	},
+    });
+  },
 
-	readMapFile: (filename) => {
-		console.log(filename);
-		return new Promise((resolve, reject) => {
-			fs.readFile(filename, (err, data) => {
-				if (err) reject(err);
-				resolve(JSON.parse(data.toString()));
-			});
-		});
-	},
+  writeMapFile: (filename, map) => {
+    return new Promise((resolve, reject) => {
+      let data = JSON.stringify(map);
+      fs.writeFile(filename, data, (err) => {
+        try {
+          if (err) reject(err);
+          resolve(`Map file ${filename} written successfully!`);
 
-	getAllMaps: () => {
-		return new Promise((resolve, reject) => {
-			fs.readdir(`${__dirname}/../public/maps`, (err, data) => {
-				if (err) reject(err);
-				let maps = [];
-				for (let i = 0; i < data.length; i++) {
-					if (data[i].endsWith(".map")) {
-						module.exports.readMapFile(`${__dirname}/../public/maps/${data[i]}`).then(
-							map => {
-								maps.push(map);
-							}
-						);
-					}
-				}
-				resolve(maps);
-			});
-		});
-	},
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+  },
 
-	getPortalImageFile: (mapFilename, portalUUID) => {
-		let mapData = fs.readFileSync(mapFilename);
-		mapData = JSON.parse(mapData.toString());
-		for (let i = 0; i < mapData.portals; i++) {
-			if (mapData.portals[i].uuid == portalUUID) {
-				return mapData.portals[i].image;
-			}
-		}
-		throw `Couldn't find a portal with uuid ${portalUUID}`;
-	}
-};
+  readMapFile: (filename) => {
+    return new Promise((resolve, reject) => {
+      fs.readFile(filename, (err, data) => {
+        try {
+          if (err) reject(err);
+          let res = JSON.parse(data.toString());
+          resolve(res);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+  },
+
+  getAllMaps: () => {
+    return new Promise((resolve, reject) => {
+      const promises = [];
+      fs.readdir(`${__dirname}/../public/maps`, (err, data) => {
+        try {
+          if (err) reject(err);
+          let maps = [];
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].endsWith(".map")) {
+              promises.push(module.exports.readMapFile(`${__dirname}/../public/maps/${data[i]}`));
+            }
+          }
+          Promise.all(promises).then(results => resolve(results))
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+  },
+
+  getPortalImageFile: (mapFilename, portalUUID) => {
+    return new Promise((resolve, reject) => {
+      module.exports.readMapFile(mapFilename).then(map => {
+        console.log(map);
+        for (let i = 0; i < map.portals.length; i++) {
+          if (map.portals[i].uuid == portalUUID) {
+            resolve(map.portals[i].image);
+          }
+        }
+      });
+    });
+  }
+}
