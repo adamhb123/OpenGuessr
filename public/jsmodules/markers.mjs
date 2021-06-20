@@ -4,8 +4,8 @@ import * as Animations from "/jsmodules/animations.mjs";
 
 var markersPlugin = null;
 var markersMasterList = [];
-var clickLocs = []
-let creatingRect = false;
+var clickLocs = [];
+var currentMapUUID = null;
 
 function RGBA(r, g, b, a) {
   this.r = r;
@@ -17,8 +17,9 @@ function RGBA(r, g, b, a) {
   }
 }
 
-function init(_markersPlugin, _viewer) {
+function init(_markersPlugin, _viewer, _currentMapUUID) {
   markersPlugin = _markersPlugin;
+  currentMapUUID = _currentMapUUID;
   _viewer.on('click', (e, data) => {
     if (!data.rightclick) {
       Animations.sparkle(data.clientX, data.clientY);
@@ -101,11 +102,9 @@ function add() {
   console.log(`IDLINK: ${idLink}`);
   let tempId = Utility.createUUID();
   markersMasterList.push(new Marker(idLink, tempId, clickLocs));
-  
-  Utility.getPortalImageFile(idLink)
   createPolygonRadMarker(tempId, clickLocs, (e, marker, data) => {
     console.log(data);
-    Portals.peekPortal();
+    Utility.getPortalImageFile(currentMapUUID, idLink).then(image => Portals.peekPortal(image));
   });
   updatePolygonRadMarkerStyle(tempId,
     new RGBA(225, 28, 82, .2),

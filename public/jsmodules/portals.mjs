@@ -35,7 +35,7 @@ function Portal(uuid, image, markers) {
   }
 }
 
-function peekPortal(portalImage){
+function peekPortal(portalImage) {
   allowMarkerCreation = false;
   setModeText("Roam");
   return new Promise((resolve, reject) => {
@@ -72,13 +72,8 @@ function returnPortal(originalPortal) {
   });
 }
 
-function copyPortalId(element) {
-  let im = element.src.split('.');
-  im = im.slice(0, im.length - 1).join();
-  im = im.split("/");
-  im = im[im.length - 1];
-  //im = im.split('=')[1];
-  document.getElementById("create-marker-text-id-link").value = im;
+function copyPortalUUID(element) {
+  document.getElementById("create-marker-text-id-link").setAttribute("uuid", element.getAttribute("uuid"));
 }
 
 export {
@@ -88,6 +83,6 @@ export {
   setModeText,
   finalizePortal,
   returnPortal,
-  copyPortalId,
+  copyPortalUUID,
   peekPortal
 }

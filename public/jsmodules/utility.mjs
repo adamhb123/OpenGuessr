@@ -22,23 +22,17 @@ function choice(choiceList) {
   return choiceList[index];
 }
 
-function sendPost(destination, type, data) {
+function sendPost(destination, data) {
   let xhr = new XMLHttpRequest();
   xhr.open("POST", destination, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
-  console.log("DATA" + JSON.stringify(data));
-  let dataObj = {
-    "type": type
-  }
-  dataObj = Object.assign(data, dataObj);
-  console.log("DATA OBJ:" + JSON.stringify(dataObj));
-  xhr.send(JSON.stringify(dataObj));
+  xhr.send(JSON.stringify(data));
   return xhr;
 }
 
 function getMapPortals(mapUUID) {
   return new Promise((resolve, reject) => {
-    let xhr = sendPost("/portals", null, {
+    let xhr = sendPost("/portals", {
       mapUUID: mapUUID,
       type: "get map portals"
     });
@@ -56,10 +50,10 @@ function getMapPortals(mapUUID) {
   });
 }
 
-function getPortalImageFile(mapFilename, portalUUID) {
+function getPortalImageFile(mapUUID, portalUUID) {
   return new Promise((resolve, reject) => {
-    let xhr = sendPost("/portals", null, {
-      mapFilename: mapFilename,
+    let xhr = sendPost("/portals", {
+      mapUUID: mapUUID,
       portalUUID: portalUUID,
       type: "get portal image"
     });
@@ -69,7 +63,7 @@ function getPortalImageFile(mapFilename, portalUUID) {
         resolve(xhr.response);
         clearInterval(intid);
       } else if (timeElapsed > 10000) {
-        reject(`Failed to retrieve portals from map ${mapFilename}`)
+        reject(`Failed to retrieve portals from map ${mapUUID}`)
         clearInterval(intid);
       }
       timeElapsed += 100;
