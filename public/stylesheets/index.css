@@ -1,0 +1,16 @@
+body {
+  padding: 0px;
+  margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#title-text{
+  font-size: 4.8rem;
+  top:3%;
+  color: #ffda00;
+}

@@ -1,0 +1,33 @@
+.ve-overlay {
+  z-index: 100;
+  position: absolute;
+}
+
+.ve-center {
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+
+.ve-uninteractable {
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */
+}
+
+.viewer-blur {
+  filter: blur(5px);
+}
+
+#viewer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}

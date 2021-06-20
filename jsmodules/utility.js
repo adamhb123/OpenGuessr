@@ -77,13 +77,16 @@ module.exports = {
 			const promises = [];
 			fs.readdir(MAPDIR, (err, data) => {
 				if (err) reject(err);
+
 				// let maps = [];
 				for (let i = 0; i < data.length; i++) {
 					if (data[i].endsWith(".map")) {
 						promises.push(module.exports.readMapFile(data[i].slice(0, data[i].length - 4)));
 					}
 				}
-				Promise.all(promises).then(results => resolve(results));
+				Promise.all(promises).then(results => {
+					resolve(results);
+				});
 			});
 		});
 	},
@@ -99,6 +102,17 @@ module.exports = {
 				}
 				reject("Couldn't find portal image file");
 			});
+		});
+	},
+	getRandomPortalImageFile: () => {
+		return new Promise((resolve, reject) => {
+			module.exports.getAllMaps().then(maps => {
+				if(maps.length == 0) reject("No maps found");
+				let map = maps[Math.floor(Math.random()*maps.length)];
+				if(map.portals.length == 0) reject(`No portals in map "${map.name}"(${map.uuid})`)
+				let portal = map.portals[Math.floor(Math.random()*map.portals.length)];
+				resolve(portal.image);
+			}).catch(error => reject(error));
 		});
 	}
 };

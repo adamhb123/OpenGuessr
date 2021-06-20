@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
 
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/index.css' />
+  <link rel='stylesheet' href='/stylesheets/viewer.css' />
+  <!-- Photosphere viewer dependencies -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uevent@2/browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/photo-sphere-viewer.min.js"></script>
 </head>
+
 <body>
-  <h1>OpenGuessr</h1>
-  <a href="/upload">Upload</a>
+  <div id="viewer" class="viewer-blur"></div>
+  <h1 id="title-text" class="ve-overlay ve-center ve-uninteractable">OpenGuessr</h1>
+  <script id="index-script" type="module" src="/viewsjs/index.mjs"></script>
 </body>
+
 </html>

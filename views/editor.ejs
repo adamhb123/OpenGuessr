@@ -3,13 +3,14 @@
 
 <head>
   <title><%= title %></title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/editor.css' />
+  <link rel='stylesheet' href='/stylesheets/viewer.css' />
   <!-- Photosphere viewer dependencies -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/uevent@2/browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/photo-sphere-viewer.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/plugins/markers.min.js"></script>
 </head>
 
@@ -26,7 +27,7 @@
         <h1>Mode: Roaming</h1>
       </div>
       <div id="mode-text-div">
-        <h1>Map: Roaming</h1>
+        <h1>Map: Don't know lol</h1>
       </div>
       <button class="create-marker-button" id="gallery-button">Portal Gallery</button>
     </div>
@@ -44,78 +45,7 @@
   </div>
 
   <div id="viewer"></div>
-  <script type="module">
-    import * as Markers from "/jsmodules/markers.mjs";
-    import * as Gallery from "/jsmodules/gallery.mjs";
-    import * as Utility from "/jsmodules/utility.mjs";
-    import * as Portals from "/jsmodules/portals.mjs";
-    import * as Maps from "/jsmodules/maps.mjs";
-    import * as Animations from "/jsmodules/animations.mjs"
-
-    var viewer = new PhotoSphereViewer.Viewer({
-      plugins: [
-        [PhotoSphereViewer.MarkersPlugin]
-      ],
-      container: document.querySelector('#viewer'),
-      panorama: '<%= panorama %>'
-    });
-    var markersPlugin = viewer.getPlugin(PhotoSphereViewer.MarkersPlugin);
-    Portals.init(viewer);
-    Markers.init(markersPlugin, viewer);
-    let gallery = new Gallery.PortalGallery('<%= mapUUID %>');
-    /* Button stuff */
-    document.getElementById("gallery-button").onclick = () => {
-      gallery.update().then(gallery.toggle())
-    };
-    document.getElementById("add-marker-button").onclick = () => {
-      Markers.add();
-    };
-    document.getElementById("final-marker-button").onclick = () => {
-      Portals.finalizePortal();
-    }
-    document.getElementById("return-marker-button").onclick = () => {
-      Portals.returnPortal("<%= panorama %>");
-    }
-
-    function onloadActions() {
-      gallery.update();
-      let intid = setInterval(() => {
-        if (viewerCanvas == null) {
-          viewerCanvas = document.getElementsByClassName("psv-canvas");
-          viewerCanvas = viewerCanvas.length > 0 ? viewerCanvas[0] : null;
-        } else {
-          clearInterval(intid);
-        }
-      }, 100);
-    }
-
-    /* Photosphere */
-    if ('<%= panorama %>'.includes('undefined')) window.location.replace("/upload");
-
-
-    var viewerCanvas = null;
-    console.log(`Canvas: ${viewerCanvas}`);
-
-    if (window.addEventListener) {
-      window.addEventListener('load', () => {
-        onloadActions();
-      });
-      document.addEventListener('contextmenu', function(e) {
-        //alert("You've tried to open context menu"); //here you draw your own menu
-        e.preventDefault();
-      }, false);
-    } else {
-      window.attachEvent('onload', () => {
-        onloadActions();
-      });
-      document.attachEvent('oncontextmenu', function() {
-        //alert("You've tried to open context menu");
-        window.event.returnValue = false;
-      });
-    }
-
-    Portals.setModeText("Edit");
-  </script>
+  <script id="editor-script" type="module" src="/viewsjs/editor.mjs" data-panorama="<%= panorama %>" data-mapUUID="<%= mapUUID %>"></script>
 
 </body>
 

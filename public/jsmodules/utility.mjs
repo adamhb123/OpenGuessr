@@ -30,23 +30,30 @@ function sendPost(destination, data) {
   return xhr;
 }
 
-function getMapPortals(mapUUID) {
+function waitForResponse(xhr) {
   return new Promise((resolve, reject) => {
-    let xhr = sendPost("/portals", {
-      mapUUID: mapUUID,
-      type: "get map portals"
-    });
     let timeElapsed = 0;
     let intid = setInterval(() => {
       if (xhr.readyState == 4) {
         resolve(xhr.response);
         clearInterval(intid);
       } else if (timeElapsed > 10000) {
-        reject(`Failed to retrieve portals from map ${mapUUID}`)
+        reject('waitForResponse timed out')
         clearInterval(intid);
       }
       timeElapsed += 100;
     }, 100);
+  });
+
+}
+
+function getMapPortals(mapUUID) {
+  return new Promise((resolve, reject) => {
+    let xhr = sendPost("/portals", {
+      mapUUID: mapUUID,
+      type: "get map portals"
+    });
+    waitForResponse(xhr).then(result => resolve(result));
   });
 }
 
@@ -57,17 +64,18 @@ function getPortalImageFile(mapUUID, portalUUID) {
       portalUUID: portalUUID,
       type: "get portal image"
     });
-    let timeElapsed = 0;
-    let intid = setInterval(() => {
-      if (xhr.readyState == 4) {
-        resolve(xhr.response);
-        clearInterval(intid);
-      } else if (timeElapsed > 10000) {
-        reject(`Failed to retrieve portals from map ${mapUUID}`)
-        clearInterval(intid);
-      }
-      timeElapsed += 100;
-    }, 100);
+    waitForResponse(xhr).then(result => resolve(result));
+  });
+}
+
+function getRandomPortalImageFile() {
+  return new Promise((resolve, reject) => {
+    let xhr = sendPost("/portals", {
+      type: "get random panorama"
+    });
+    waitForResponse(xhr).then(result => {
+      resolve(JSON.parse(result).portalImage);
+    });
   });
 }
 
@@ -77,5 +85,6 @@ export {
   choice,
   sendPost,
   getMapPortals,
-  getPortalImageFile
+  getPortalImageFile,
+  getRandomPortalImageFile
 };
