@@ -9,8 +9,53 @@ body {
   width: 100%;
 }
 
-#title-text{
-  font-size: 4.8rem;
-  top:3%;
+#title-text {
+  font-size: 6rem;
+  top: 7%;
   color: #ffda00;
+  background-color: darkgray;
+  padding: 8px 22px 8px 22px;
+  border: 2px solid black;
+  border-radius:40px;
+}
+
+#selection-menu {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  top: 36%;
+  width: 400px;
+  height: 40%;
+}
+#selection-menu > .col {
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  background-color: white;
+  margin-bottom: 10px;
+  border: 2px solid black;
+}
+#selection-menu > .col  > div > h3{
+  font-size: 1.4rem;
+}
+#selection-menu > .col:hover {
+  background-color: lightgray;
+}
+@media only screen and (max-width: 662px) {
+  #title-text {
+    top:18%;
+    font-size: 3.8rem;
+    border: 2px solid black;
+    border-radius:40px;
+  }
+  #selection-menu > .col {
+    width:300px;
+  }
+  #selection-menu > .col  > div > h3{
+    font-size: 1.2rem;
+  }
 }
