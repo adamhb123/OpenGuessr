@@ -109,7 +109,7 @@ module.exports = {
 			module.exports.getAllMaps().then(maps => {
 				if(maps.length == 0) reject("No maps found");
 				let map = maps[Math.floor(Math.random()*maps.length)];
-				if(map.portals.length == 0) reject(`No portals in map "${map.name}"(${map.uuid})`)
+				if(map.portals.length == 0) reject(`No portals in map "${map.name}"(${map.uuid})`);
 				let portal = map.portals[Math.floor(Math.random()*map.portals.length)];
 				resolve(portal.image);
 			}).catch(error => reject(error));
