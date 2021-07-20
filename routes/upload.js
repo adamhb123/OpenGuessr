@@ -6,7 +6,7 @@ const {
 } = require("uuid");
 const utility = require(`${__dirname}/../jsmodules/utility`);
 /* GET create page. */
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
 	utility.getAllMaps().then(maps => {
 		console.log("Retrieved maps: " + JSON.stringify(maps));
 		res.render("upload", {
@@ -15,17 +15,16 @@ router.get("/", function(req, res) {
 		});
 	});
 });
-router.post("/", function(req, res) {
-	var fstream;
-	console.log(req.files);
-	console.log(req.body);
+router.post("/", function (req, res) {
+	let fstream;
 	let file = req.files["file-uploaded"];
 	let filename = file.name;
 	let fnspl = filename.split(".");
 	let newFilename = uuidv4().replace(".", "") + "." + fnspl[fnspl.length - 1];
 	let mapUUID = req.body.map;
 	new Promise((resolve, reject) => {
-		if (mapUUID == "new-map") {
+		console.log("mapUUID: " + mapUUID);
+		if (mapUUID === "new-map") {
 			let map = {
 				name: req.body["new-map-name"],
 				uuid: uuidv4().replace(".", ""),
@@ -33,12 +32,17 @@ router.post("/", function(req, res) {
 				portals: []
 			};
 			utility.writeMapFile(map).then(
-				resolve(map)
+				map => resolve(map)
+			).catch(
+				err => reject(`Malformed POST body:\n\t${err}`)
 			);
 		} else {
-			utility.readMapFile(mapUUID).then(map => resolve(map));
+			utility.readMapFile(mapUUID).then(
+				map => resolve(map)
+			).catch(
+				err => reject(`Malformed POST body:\n\t${err}`)
+			);
 		}
-		reject("Malformed POST body");
 	}).then(map => {
 		console.log(`Uploading ${filename} as ${newFilename}`);
 		// Path where image will be uploaded
@@ -48,6 +52,8 @@ router.post("/", function(req, res) {
 			res.redirect(`editor?image=${encodeURIComponent(newFilename)}&map=${encodeURIComponent(map.uuid)}`);
 			fstream.end();
 		});
+	}).catch((err) => {
+		console.error("Error: " + err);
 	});
 
 });

@@ -1,61 +1,51 @@
 body {
-  padding: 0px;
-  margin: 0;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+    padding: 0px;
+    margin: 0;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 
-#title-text {
-  font-size: 6rem;
-  top: 7%;
-  color: #ffda00;
-  background-color: darkgray;
-  padding: 8px 22px 8px 22px;
-  border: 2px solid black;
-  border-radius:40px;
+#title-logo {
+    top: 6%;
+    width: 500px;
+    filter: drop-shadow(0px 0px 5px white);
 }
 
 #selection-menu {
-  display: flex;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  top: 36%;
-  width: 400px;
-  height: 40%;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    top: 50%;
+    width: 400px;
+    height: 40%;
 }
+
 #selection-menu > .col {
-  width: 100%;
-  text-align: center;
-  text-decoration: none;
-  color: black;
-  background-color: white;
-  margin-bottom: 10px;
-  border: 2px solid black;
-}
-#selection-menu > .col  > div > h3{
-  font-size: 1.4rem;
-}
-#selection-menu > .col:hover {
-  background-color: lightgray;
-}
-@media only screen and (max-width: 662px) {
-  #title-text {
-    top:18%;
-    font-size: 3.8rem;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    margin-bottom: 20px;
     border: 2px solid black;
-    border-radius:40px;
-  }
-  #selection-menu > .col {
-    width:300px;
-  }
-  #selection-menu > .col  > div > h3{
-    font-size: 1.2rem;
-  }
+}
+
+#selection-menu > .col > div > h3 {
+    font-size: 1.4rem;
+}
+
+#selection-menu > .col:hover {
+    background-color: lightgray;
+}
+
+@media only screen and (max-width: 662px) {
+
 }

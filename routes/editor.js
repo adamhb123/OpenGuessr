@@ -22,7 +22,7 @@ const utility = require("../jsmodules/utility");
 let portalImage = null;
 let portalMapUUID = null;
 
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
 	portalImage = req.query.image;
 	portalMapUUID = req.query.map;
 	res.render("editor", {
@@ -31,10 +31,10 @@ router.get("/", function(req, res) {
 		mapUUID: portalMapUUID
 	});
 });
-router.post("/", function(req, res) {
+router.post("/", function (req, res) {
 	console.log("POST RECEIVED");
 	let type = req.body.type.toString();
-	if(type.includes("finalize portal")) {
+	if (type.includes("finalize portal")) {
 		//let filename = portalImage.split('.')[0] + ".prtl";
 		console.log(`${pubdir}/maps/${portalMapUUID}`);
 		utility.addPortalToMapFile(`${pubdir}/maps/${portalMapUUID}`, {

@@ -5,16 +5,25 @@
   <title><%= title %></title>
   <link rel='stylesheet' href='/stylesheets/index.css' />
   <link rel='stylesheet' href='/stylesheets/viewer.css' />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W2NZ584X26"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W2NZ584X26');
+  </script>
   <!-- Photosphere viewer dependencies -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uevent@2/browser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4.2.1/dist/photo-sphere-viewer.min.js"></script>
+  <link rel="stylesheet" href="/csslibs/photo-sphere-viewer.min.css" />
+  <script src="/jslibs/three.min.js"></script>
+  <script src="/jslibs/browser.min.js"></script>
+  <script src="/jslibs/photo-sphere-viewer.min.js"></script>
 </head>
 
 <body>
+
+  <img id="title-logo" class="ve-overlay ve-center ve-uninteractable" alt="OpenGuessr Logo" src="/images/site/logo.svg"/>
   <div id="viewer" class="viewer-blur"></div>
-  <h1 id="title-text" class="ve-overlay ve-center ve-uninteractable">OpenGuessr</h1>
   <div id="selection-menu" class="ve-overlay ve-center">
     <a class="col" href="/play">
       <div>

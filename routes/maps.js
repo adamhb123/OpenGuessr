@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 const utility = require("../jsmodules/utility");
 /* GET create page. */
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
 	let files = fs.readdirSync(__dirname + "/../public/maps", {
 		withFileTypes: false
 	});
