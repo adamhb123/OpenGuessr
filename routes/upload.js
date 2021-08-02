@@ -1,13 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs-extra");
-const {
-	v4: uuidv4
-} = require("uuid");
-const utility = require(`${__dirname}/../jsmodules/utility`);
+const {v4: uuidv4} = require("uuid");
+const portals = require("../serverside/portals");
 /* GET create page. */
 router.get("/", function (req, res) {
-	utility.getAllMaps().then(maps => {
+	portals.getAllMaps().then(maps => {
 		console.log("Retrieved maps: " + JSON.stringify(maps));
 		res.render("upload", {
 			title: "OpenGuessr",
@@ -31,13 +29,13 @@ router.post("/", function (req, res) {
 				links: [],
 				portals: []
 			};
-			utility.writeMapFile(map).then(
+			portals.writeMapFile(map).then(
 				map => resolve(map)
 			).catch(
 				err => reject(`Malformed POST body:\n\t${err}`)
 			);
 		} else {
-			utility.readMapFile(mapUUID).then(
+			portals.readMapFile(mapUUID).then(
 				map => resolve(map)
 			).catch(
 				err => reject(`Malformed POST body:\n\t${err}`)

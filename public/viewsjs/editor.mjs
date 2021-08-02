@@ -5,8 +5,8 @@ import * as Portals from "/jsmodules/portals.mjs";
 import * as Maps from "/jsmodules/maps.mjs";
 import * as Animations from "/jsmodules/animations.mjs"
 
-let panorama = document.getElementById("editor-script").getAttribute("data-panorama");
-let mapUUID = document.getElementById("editor-script").getAttribute("data-mapUUID");
+let panorama = document.querySelector("#editor-script").getAttribute("data-panorama");
+let mapUUID = document.querySelector("#editor-script").getAttribute("data-mapUUID");
 
 var viewer = new PhotoSphereViewer.Viewer({
   plugins: [
@@ -21,16 +21,16 @@ Markers.init(markersPlugin, viewer, mapUUID);
 let gallery = new Gallery.PortalGallery(mapUUID);
 
 /* Button stuff */
-document.getElementById("gallery-button").onclick = () => {
+document.querySelector("#gallery-button").onclick = () => {
   gallery.update().then(gallery.toggle())
 };
-document.getElementById("add-marker-button").onclick = () => {
+document.querySelector("#add-marker-button").onclick = () => {
   Markers.add();
 };
-document.getElementById("final-marker-button").onclick = () => {
+document.querySelector("#final-marker-button").onclick = () => {
   Portals.finalizePortal();
 }
-document.getElementById("return-marker-button").onclick = () => {
+document.querySelector("#return-marker-button").onclick = () => {
   Portals.returnPortal(panorama);
 }
 

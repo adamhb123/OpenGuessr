@@ -54,7 +54,7 @@ function init(_viewer) {
 }
 
 function setModeText(mode) {
-  let textCont = document.getElementById("mode-text-div").getElementsByTagName('h1')[0];
+  let textCont = document.querySelector("#mode-text-div").getElementsByTagName('h1')[0];
   textCont.innerHTML = `Mode: ${mode}`;
 }
 
@@ -73,7 +73,7 @@ function returnPortal(originalPortal) {
 }
 
 function copyPortalUUID(element) {
-  document.getElementById("create-marker-text-id-link").setAttribute("uuid", element.getAttribute("uuid"));
+  document.querySelector("#create-marker-text-id-link").setAttribute("uuid", element.getAttribute("uuid"));
 }
 
 export {

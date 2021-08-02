@@ -5,7 +5,7 @@ achieve this, it uses Photosphere Viewer for viewing images in 3D, as well as fo
 
 ## Example
 
-Here is an example of the editor in use:
+Here is an (outdated) example of the editor in use:
 
 https://user-images.githubusercontent.com/25161597/115099577-d6f50700-9f04-11eb-887b-fdb18ba48903.mp4
 

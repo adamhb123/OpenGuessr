@@ -1,6 +1,6 @@
 function onMapChange() {
-	let displayMapCreation = document.getElementById("map-creation-section");
-	if (document.getElementById("map").value == "new-map") {
+	let displayMapCreation = document.querySelector("#map-creation-section");
+	if (document.querySelector("#map").value === "new-map") {
 		displayMapCreation.style.display = "block";
 	} else {
 		displayMapCreation.style.display = "none";

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const uploadedImagesLocation = "/images/panoramas/";
 const pubdir = __dirname + "/../public";
-const utility = require("../jsmodules/utility");
+const utility = require("../js/utility");
 
 /* function polygonRadToString(polygonRad) {
 	let strng = "";

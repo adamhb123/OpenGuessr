@@ -1,4 +1,4 @@
-import * as Utility from "/jsmodules/utility.mjs";
+import * as Portals from "/jsmodules/portals.mjs";
 
 //  Viewer initialization
 Utility.getRandomPortalImageFile().then(imageFile => {
