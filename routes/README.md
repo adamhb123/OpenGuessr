@@ -1,8 +1,8 @@
-#Routes
+# Routes
 
 Here we handle client requests to the server, whether that be responding to GETs or POSTs.
 
-##What should be in here?
+## What should be in here?
 
 Any functions that deal directly with sending responding to a client request with data should be here. **They are
 identifiable by having the arguments _req_ and/or _res_.** Functions that perform server-side operations in 
