@@ -1,7 +1,7 @@
-import * as Portals from "/jsmodules/portals.mjs";
+import * as Portals from "../jsmodules/portals.mjs";
 
 //  Viewer initialization
-Utility.getRandomPortalImageFile().then(imageFile => {
+Portals.getRandomPortalImageFile().then(imageFile => {
   var viewer = new PhotoSphereViewer.Viewer({
     navbar: [
       'autorotate'

@@ -5,6 +5,16 @@
   <title><%= title %></title>
   <link rel='stylesheet' href='/stylesheets/index.css' />
   <link rel='stylesheet' href='/stylesheets/viewer.css' />
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/site/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/site/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/site/favicon-16x16.png">
+  <link rel="manifest" href="/images/site/site.webmanifest">
+  <link rel="mask-icon" href="/images/site/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="/images/site/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="/images/site/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-W2NZ584X26"></script>
   <script>
@@ -18,28 +28,30 @@
   <script src="/jslibs/three.min.js"></script>
   <script src="/jslibs/browser.min.js"></script>
   <script src="/jslibs/photo-sphere-viewer.min.js"></script>
+
 </head>
 
 <body>
-
-  <img id="title-logo" class="ve-overlay ve-center ve-uninteractable" alt="OpenGuessr Logo" src="/images/site/logo.svg"/>
   <div id="viewer" class="viewer-blur"></div>
-  <div id="selection-menu" class="ve-overlay ve-center">
-    <a class="col" href="/play">
-      <div>
-        <h3 class="title">Play</h3>
-      </div>
-    </a>
-    <a class="col" href="/upload">
-      <div>
-        <h3 class="title">Upload</h3>
-      </div>
-    </a>
-    <a class="col" href="/edit">
-      <div>
-        <h3 class="title">Edit</h3>
-      </div>
-    </a>
+  <div id="container">
+    <img id="title-logo" class="ve-overlay ve-center ve-uninteractable" alt="OpenGuessr Logo" src="/images/site/logo.svg"/>
+    <div id="selection-menu" class="ve-overlay ve-center">
+      <a class="col" href="/play">
+        <div>
+          <h3 class="title">Play</h3>
+        </div>
+      </a>
+      <a class="col" href="/upload">
+        <div>
+          <h3 class="title">Upload</h3>
+        </div>
+      </a>
+      <a class="col" href="/edit">
+        <div>
+          <h3 class="title">Edit</h3>
+        </div>
+      </a>
+    </div>
   </div>
   <script id="index-script" type="module" src="/viewsjs/index.mjs"></script>
 </body>

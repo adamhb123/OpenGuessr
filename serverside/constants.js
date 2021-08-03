@@ -2,11 +2,10 @@
 module.exports = {
 	POSTCodes : {
 		FINALIZEPORTAL: 0,
-		RETURNPORTAL: 1,
+		RETURNPORTAL: 1,	// Unnecessary?
 		GETMAPPORTALS: 2,
 		GETPORTALIMAGE: 3,
 		GETRANDOMPORTALIMAGEFILE: 4
 	},
-	pubDir: `${__dirname}/../public`,
-	mapDir: `${module.exports.pubDir}/maps`
+	pubDir: `${__dirname}/../public`
 };

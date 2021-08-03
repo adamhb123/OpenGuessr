@@ -1,6 +1,8 @@
-import * as Gallery from "/jsmodules/gallery.mjs";
-import * as Utility from "/jsmodules/utility.mjs";
-import * as Markers from "/jsmodules/markers.mjs";
+import * as Gallery from "./gallery.mjs";
+import * as Utility from "./utility.mjs";
+import * as Markers from "./markers.mjs";
+import * as Constants from "../constants.mjs"
+import {sendPost, waitForResponse} from "./utility.mjs";
 
 var allowMarkerCreation = true;
 var viewer = null;
@@ -58,18 +60,28 @@ function setModeText(mode) {
   textCont.innerHTML = `Mode: ${mode}`;
 }
 
-function finalizePortal() {
-  Utility.sendPost("editor", "finalize portal", {
-    "markers": Markers.markersMasterList
+function getRandomPortalImageFile() {
+  return new Promise((resolve,reject) => {
+    let xhr = Utility.sendPost("portals", {
+      type: Constants.POSTCodes.GETRANDOMPORTALIMAGEFILE
+    });
+    waitForResponse(xhr).then(result => {
+      console.log(result);
+      resolve(JSON.parse(result).portalImage);
+    });
   });
 }
 
+function finalizePortal() {
+  return Utility.waitForResponse(Utility.sendPost("portals", {type: Constants.POSTCodes.FINALIZEPORTAL}, {
+    "markers": Markers.markersMasterList
+  }));
+}
+
 function returnPortal(originalPortal) {
-  return new Promise((resolve, reject) => {
-    setModeText("Edit");
-    allowMarkerCreation = true;
-    viewer.setPanorama(originalPortal).then(Markers.unhide());
-  });
+  setModeText("Edit");
+  allowMarkerCreation = true;
+  return viewer.setPanorama(originalPortal).then(Markers.unhide());
 }
 
 function copyPortalUUID(element) {
@@ -81,8 +93,9 @@ export {
   PortalFromJSON,
   init,
   setModeText,
+  getRandomPortalImageFile,
   finalizePortal,
   returnPortal,
   copyPortalUUID,
-  peekPortal
+  peekPortal,
 }

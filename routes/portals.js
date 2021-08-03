@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const utility = require("../js/utility");
-const constants = require("../js/constants");
-const portals = require("../js/portals");
+const utility = require("../serverside/utility");
+const constants = require("../serverside/constants");
+const portals = require("../serverside/portals");
 
 function getRandomPortalImageFile(req, res) {
 	//	Returns a JSON obj with the portalImage as an attribute
@@ -40,7 +40,7 @@ function getPortalImage(req, res) {
 
 function getMapPortals(req, res) {
 	let mapUUID = req.body.mapUUID.toString();
-	utility.readMapFile(mapUUID).then(map => {
+	portals.readMapFile(mapUUID).then(map => {
 		return res.end(JSON.stringify(map.portals));
 	}).catch(error => {
 		return res.status(400).send({
@@ -67,6 +67,7 @@ function returnPortal(req){
 router.post("/", function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	let type = Number.parseInt(req.body.type);
+	console.log("TYPE: " + req.body.type);
 	switch (type) {
 	case constants.POSTCodes.FINALIZEPORTAL:
 		return finalizePortal(req);

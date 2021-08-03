@@ -34,7 +34,7 @@ function waitForResponse(xhr) {
   return new Promise((resolve, reject) => {
     let timeElapsed = 0;
     let intid = setInterval(() => {
-      if (xhr.readyState == 4) {
+      if (xhr.readyState === 4) {
         resolve(xhr.response);
         clearInterval(intid);
       } else if (timeElapsed > 10000) {
@@ -86,5 +86,6 @@ export {
   sendPost,
   getMapPortals,
   getPortalImageFile,
-  getRandomPortalImageFile
+  getRandomPortalImageFile,
+  waitForResponse
 };

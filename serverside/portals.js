@@ -11,7 +11,7 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			try {
 				// let portalData = JSON.stringify(portalJSON);
-				if (module.exports.fileExists(`${constants.mapDir}/${mapUUID}.map`)) {
+				if (module.exports.fileExists(`${constants.pubDir}/maps/${mapUUID}.map`)) {
 					module.exports.readMapFile(mapUUID).then(map => {
 						map.portals = map.portals.filter(it => it.uuid !== portalJSON.uuid);
 						map.portals.push(portalJSON);
@@ -32,7 +32,7 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			let data = JSON.stringify(map);
 			let mapFilename = `${map.uuid}.map`;
-			fs.writeFile(`${constants.mapDir}/${mapFilename}`, data, (err) => {
+			fs.writeFile(`${constants.pubDir}/maps/${mapFilename}`, data, (err) => {
 				try {
 					if (err) reject(err);
 					resolve(`Map file ${mapFilename} written successfully!`);
@@ -46,7 +46,7 @@ module.exports = {
 
 	readMapFile: (mapUUID) => {
 		return new Promise((resolve, reject) => {
-			fs.readFile(`${constants.mapDir}/${mapUUID}.map`, (err, data) => {
+			fs.readFile(`${constants.pubDir}/maps/${mapUUID}.map`, (err, data) => {
 				try {
 					if (err) reject(err);
 					let res = JSON.parse(data.toString());
@@ -61,9 +61,10 @@ module.exports = {
 	getAllMaps: () => {
 		return new Promise((resolve, reject) => {
 			const promises = [];
-			fs.readdir(constants.mapDir, (err, data) => {
-				if (err) reject(err);
+			console.log(constants.pubDir);
 
+			fs.readdir(`${constants.pubDir}/maps/`, (err, data) => {
+				if (err) reject(err);
 				// let maps = [];
 				for (let i = 0; i < data.length; i++) {
 					if (data[i].endsWith(".map")) {
