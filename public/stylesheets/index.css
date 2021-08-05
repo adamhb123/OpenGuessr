@@ -10,22 +10,30 @@ body {
     overflow: hidden;
 }
 
+#container {
+    top:10%;
+}
+
 #title-logo {
-    top: 6%;
+    position:relative;
+    display:block;
+    margin:auto;
+    text-align:center;
     width: 500px;
     filter: drop-shadow(0px 0px 5px white);
+    padding-bottom:50px;
 }
 
 #selection-menu {
+    position:relative;
     display: flex;
     display: -webkit-flex;
     display: -ms-flexbox;
     flex-flow: column nowrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    top: 50%;
+    margin: auto;
     width: 400px;
-    height: 40%;
 }
 
 #selection-menu > .col {

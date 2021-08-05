@@ -15,6 +15,7 @@ const createRouter = require("./routes/upload");
 const editorRouter = require("./routes/editor");
 const portalsRouter = require("./routes/portals");
 const mapsRouter = require("./routes/maps");
+const playRouter = require("./routes/play");
 
 const compression = require("compression");
 
@@ -42,6 +43,7 @@ app.use("/upload", createRouter);
 app.use("/editor", editorRouter);
 app.use("/portals", portalsRouter);
 app.use("/maps", mapsRouter);
+app.use("/play", playRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
