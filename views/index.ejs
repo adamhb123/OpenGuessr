@@ -5,16 +5,9 @@
   <title><%= title %></title>
   <link rel='stylesheet' href='/stylesheets/index.css' />
   <link rel='stylesheet' href='/stylesheets/viewer.css' />
-  <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/site/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/site/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/site/favicon-16x16.png">
-  <link rel="manifest" href="/images/site/site.webmanifest">
-  <link rel="mask-icon" href="/images/site/safari-pinned-tab.svg" color="#5bbad5">
-  <link rel="shortcut icon" href="/images/site/favicon.ico">
-  <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="msapplication-config" content="/images/site/browserconfig.xml">
-  <meta name="theme-color" content="#ffffff">
+  <%- include('includes/favicons.ejs') %>
+  <%- include('includes/psviewer-dependencies.ejs',{markers: false}) %>
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-W2NZ584X26"></script>
   <script>
@@ -23,11 +16,6 @@
     gtag('js', new Date());
     gtag('config', 'G-W2NZ584X26');
   </script>
-  <!-- Photosphere viewer dependencies -->
-  <link rel="stylesheet" href="/csslibs/photo-sphere-viewer.min.css" />
-  <script src="/jslibs/three.min.js"></script>
-  <script src="/jslibs/browser.min.js"></script>
-  <script src="/jslibs/photo-sphere-viewer.min.js"></script>
 
 </head>
 

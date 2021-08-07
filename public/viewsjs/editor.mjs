@@ -1,9 +1,6 @@
 import * as Markers from "/jsmodules/markers.mjs";
 import * as Gallery from "/jsmodules/gallery.mjs";
-import * as Utility from "/jsmodules/utility.mjs";
 import * as Portals from "/jsmodules/portals.mjs";
-import * as Maps from "/jsmodules/maps.mjs";
-import * as Animations from "/jsmodules/animations.mjs"
 
 let panorama = document.querySelector("#editor-script").getAttribute("data-panorama");
 let mapUUID = document.querySelector("#editor-script").getAttribute("data-mapUUID");

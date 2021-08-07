@@ -5,13 +5,8 @@
   <title><%= title %></title>
   <link rel='stylesheet' href='/stylesheets/editor.css' />
   <link rel='stylesheet' href='/stylesheets/viewer.css' />
-  <!-- Photosphere viewer dependencies -->
-  <link rel="stylesheet" href="/cslibs/photo-sphere-viewer.min.css" />
-  <link rel="stylesheet" href="/cslibs/markers.min.css" />
-  <script src="/jslibs/three.min.js"></script>
-  <script src="/jslibs/browser.min.js"></script>
-  <script src="/jslibs/photo-sphere-viewer.min.js"></script>
-  <script src="/jslibs/markers.min.js"></script>
+  <%- include('includes/favicons.ejs') %>
+  <%- include('includes/psviewer-dependencies.ejs',{markers: true}) %>
 </head>
 
 <body>

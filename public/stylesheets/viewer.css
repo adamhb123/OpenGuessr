@@ -1,5 +1,15 @@
-html, body { height: 100%; }
-
+html { height: 100%; }
+body {
+  padding: 0px;
+  margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
 .ve-overlay-container {
   z-index: 100;
   position: absolute;

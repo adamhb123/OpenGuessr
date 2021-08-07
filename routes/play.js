@@ -3,7 +3,7 @@ const router = express.Router();
 
 /* GET play page. */
 router.get("/", function (req, res) {
-	res.render("play", {title: "OpenGuessr"});
+	res.render("play", {title: "Play"});
 });
 
 module.exports = router;
