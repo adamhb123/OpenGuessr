@@ -1,5 +1,6 @@
 # OpenGuessr
-[PROJECT DISCONTINUED]
+## [PROJECT DISCONTINUED]
+
 OpenGuessr is a GeoGuessr-like game that enables users to upload, edit, create, and play with their own 3D panoramas. To
 achieve this, it uses Photosphere Viewer for viewing images in 3D, as well as for creating markers.
 
